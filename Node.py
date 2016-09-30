@@ -33,7 +33,8 @@ class Node(NodeAbstract):
 		child.state.direction = (self.state.direction + 1)%4
 		child.operators = "R"
 		child.cost = self.cost 
-		child.state.cell = self.cell
+		child.state.row = self.state.row
+		child.state.column = self.state.column
 		newChild(child)
 		children.append(child)
 	#left
@@ -41,25 +42,28 @@ class Node(NodeAbstract):
 		child.state.direction = (self.state.direction +3)%4 
 		child.cost = self.cost 
 		child.operators = "L"
-		child.state.cell = self.cell
+		child.state.row = self.state.row
+		child.state.column = self.state.column
 		newChild(child)
 		children.append(child)
 		
 	def adjustLocation(self, child):
-		finalDirection = (self.state.direction + child.state.direction)%4
 		rows = self.state.matrix.rows
 		columns = self.state.matrix.columns
-		if (finalDirection == 0) and (self.state.cell.column > 0) and ("UP" not in self.state.cell.walls):
-			child.state.cell = self.state.matrix[self.state.cell.row][self.state.cell.column-1]
-		elif (finalDirection == 1) and (self.state.cell.row + 1 < rows) and ("RIGHT" not in self.state.cell.walls):
-			child.state.cell = self.state.matrix[self.state.cell.row+1][self.state.cell.column]
-		elif (finalDirection == 2) and (self.state.cell.column + 1 < columns) and ("DOWN" not in self.state.cell.walls):
-			child.state.cell = self.state.matrix [self.state.cell.row][self.state.cell.column+1]
-		elif (finalDirection == 3) and (self.state.cell.row > 0 )and ("LEFT" not in self.state.cell.walls):
-			child.state.cell = self.state.matrix[self.state.cell.row-1][self.state.cell.column]
+		if (child.state.direction == 0) and (self.state.column > 0) and ("UP" not in matrix[self.state.row][self.state.column].walls):
+			child.state.row = self.state.row
+			child.state.column = self.state.column - 1
+		elif (child.state.direction == 1) and (self.state.row + 1 < rows) and ("RIGHT" not in matrix[self.state.row][self.state.column].walls):
+			child.state.row = self.state.row + 1
+			child.state.column = self.state.column
+		elif (child.state.direction == 2) and (self.state.column + 1 < columns) and ("DOWN" not in matrix[self.state.row][self.state.column].walls):
+			child.state.row = self.state.row
+			child.state.column = self.state.column + 1
+		elif (child.state.direction == 3) and (self.state.row > 0 )and ("LEFT" not in matrix[self.state.row][self.state.column].walls):
+			child.state.row = self.state.row - 1
+			child.state.column = self.state.column
 		else:
-			finalDirection = None
-		child.state.direction = finalDirection
+			child.state.direction = None
 
 	def newChild(self, child):
 		child.depth = self.depth + 1

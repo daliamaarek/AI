@@ -3,9 +3,12 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 
 class State():
 	__metaclass__= ABCMeta
+	
+	@abstractproperty
+	def row(self): pass
 
 	@abstractproperty
-	def cell(self): pass
+	def column(self): pass
 
 	@abstractproperty
 	def direction(self): pass
