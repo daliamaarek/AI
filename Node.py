@@ -1,6 +1,4 @@
 from NodeAbstract import NodeAbstract
-from Maze import Maze
-from Cell import Cell
 
 class Node(NodeAbstract):
 
