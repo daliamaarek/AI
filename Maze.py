@@ -99,15 +99,15 @@ class Maze:
 rows = 4
 columns = 3
 field = [[Cell() for j in range(columns)] for i in range(rows)]
-for i in range(0,4):
-	for j in range(0,3):
+for i in range(0,rows):
+	for j in range(0,columns):
 		field[i][j].row = i
 		field[i][j].column = j
 
 maze = Maze(field,rows,columns)
 maze.genMaze()
-for i in range(0,4):
-	for j in range(0,3):
+for i in range(0,rows):
+	for j in range(0,columns):
 		print field[i][j].walls
 		# print  str(field[i][j].isPokemon)
 		# print field[i][j].row
