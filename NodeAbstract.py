@@ -6,20 +6,20 @@ class NodeAbstract:
 
 	#properties
 	@abstractproperty
-	def state(self): pass
+	def state(self, stateValue): pass
 	
 	@abstractproperty
-	def parent(self): pass
+	def parent(self, parentValue): pass
 
 	@abstractproperty
-	def operators(self):pass
+	def operators(self, operatorsValue):pass
 
 	@abstractproperty
-	def depth(self): pass
+	def depth(self, depthValue): pass
 	
 	@abstractproperty
-	def cost(self): pass
+	def cost(self, costValue): pass
 
 	#methods 
 	@abstractmethod
-	def expand(self, operators): pass  
+	def expand(self): pass
