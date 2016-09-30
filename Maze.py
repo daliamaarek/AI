@@ -10,11 +10,6 @@ class Maze:
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
 
-		# for i in range(0,rows):
-		# 	for j in range(0,columns):
-		# 		print self.visited_cells[i][j]
-
-
 	def update(self, start, end):
 		# print self.field[start[0]][start[1]].walls
 		if(start[2] == "DOWN"):
@@ -37,7 +32,7 @@ class Maze:
 				self.field[start[0]][start[1]].walls.remove("RIGHT")
 			if("LEFT" in self.field[end[0]][end[1]].walls):
 				self.field[end[0]][end[1]].walls.remove("LEFT")
-				
+
 	def updateRowColumn(self,curr_wall, new_row, new_column):
 		if(curr_wall[2] == "DOWN"):
 				new_row += 1
@@ -91,10 +86,7 @@ class Maze:
 			
 			new_row = curr_wall[0]
 			new_column = curr_wall[1]
-
-			
-
-			
+			(new_row,new_column) = self.updateRowColumn(curr_wall,new_row,new_column)
 			# print str(curr_wall[0]) + " " + str(curr_wall[1])
 			# print str(new_row) + " " + str(new_column)
 			if(self.visited[curr_wall[0]][curr_wall[1]] == 1 and self.visited[new_row][new_column] == 0):
@@ -135,15 +127,3 @@ for i in range(0,rows):
 		# print  str(field[i][j].isPokemon)
 		# print field[i][j].row
 		# print field[i][j].column
-
-
-
-
-
-
-
-
-
-
-
-
