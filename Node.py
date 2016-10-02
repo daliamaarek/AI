@@ -2,6 +2,9 @@ from NodeAbstract import NodeAbstract
 
 class Node(NodeAbstract):
 
+	def __init__(self):
+		x="hii"
+
 	def state(self, stateValue):
 		self.state = stateValue
 
