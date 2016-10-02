@@ -10,10 +10,11 @@ def generalSearch(maze, strategy, visualize):
 	setQueue(nodes, strategy)
 	curr_state = problem.initial_state
 	initial_node = Node()
-	initial_node.state(curr_state)
-	initial_node.depth(0)
+	initial_node.state = curr_state
+	initial_node.depth = 0
 	nodes.enqueue(initial_node)
-
+	if(initial_node == None):
+		print "MALAK"
 	final_depth = 1
 	max_depth = maze.rows * maze.columns * 100
 	if(strategy == "ID"):
@@ -30,10 +31,11 @@ def generalSearch(maze, strategy, visualize):
 					nodes.enqueue(children[i])
 			final_depth = final_depth + 1
 	else:
-		while len(nodes) > 0 :
-			curr_node = nodes.dequeue()
-			print curr_node.cost
-			print curr_node.pokemonCaptured
+		while nodes.len() > 0 :
+			nodes.dequeue()
+			curr_node = nodes.dequeuedValue
+			# print curr_node.cost
+			print curr_node.state.pokemonCaptured
 			print curr_node.depth
 			print curr_node.parent
 			print "NODE DONE"
@@ -82,7 +84,7 @@ print "Pokemons"
 for i in range(0,rows):
 	for j in range(0,columns):
 		if(field[i][j].isPokemon == True):
-			print "(i,j) = " + (i,j)
+			print "(i,j) = " + str((i,j))
 print "-------------------------------------"
 print "NODES VISITED"
 #GR and AS is missing
@@ -91,6 +93,7 @@ state.row = 1
 state.column = 1
 state.direction = 0
 pokemons_size = len(maze.map)
+state.pokemonCaptured = ""
 for i in range (0,pokemons_size):
 	state.pokemonCaptured = "0" + state.pokemonCaptured
 
@@ -100,7 +103,7 @@ final_state.column = 2
 
 maze = Maze(field,rows,columns)
 problem = Problem(["RR","RL","F"], state, final_state, 1, maze.steps)
-
+generalSearch(maze, "BF", False)
 
 
 

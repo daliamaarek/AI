@@ -7,8 +7,9 @@ class Maze:
 		self.field = field
 		self.rows = rows
 		self.columns = columns
-		self.map = []
+		self.map = dict()
 		self.count_pokemons = 0
+		self.steps = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
 

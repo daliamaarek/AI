@@ -2,12 +2,14 @@ from Node import *
 
 class Queue:
 
-	def __init__(self):
-		self.nodes = []
-		self.searchType = "FIFO"
 	def __init__ (self,nodes,searchType):
 		self.nodes = nodes
 		self.searchType = searchType
+
+	def __init__(self):
+		self.nodes = []
+		self.searchType = "FIFO"
+	
 
 	def dequeue(self):
 		self.dequeuedValue = self.nodes.pop(0)
@@ -21,7 +23,8 @@ class Queue:
 			self.nodes.append(element)
 			self.nodes = sorted(self.nodes, key = lambda  node: node.cost)
 
-
+	def len(self):
+		return len(self.nodes)
 
 	
 

@@ -1,9 +1,15 @@
 from NodeAbstract import NodeAbstract
+from State import *
+
 
 class Node(NodeAbstract):
 
 	def __init__(self):
-		x="hii"
+		self.state = State()
+		self.parent = None
+		self.operators = ["RL","RR","F"]
+		self.depth = 0
+		self.cost = 0
 
 	def state(self, stateValue):
 		self.state = stateValue
@@ -27,8 +33,8 @@ class Node(NodeAbstract):
 		child.state.direction = self.state.direction
 		child.operators = "F"
 		child.cost = self.cost + 1
-		newChild(child)
-		adjustLocation(child)		
+		self.newChild(child)
+		self.adjustLocation(child)		
 		if child.state.direction is not None:
 			children.append(child)
 	#right 
@@ -38,7 +44,7 @@ class Node(NodeAbstract):
 		child.cost = self.cost 
 		child.state.row = self.state.row
 		child.state.column = self.state.column
-		newChild(child)
+		self.newChild(child)
 		children.append(child)
 	#left
 		child = Node()
@@ -47,14 +53,15 @@ class Node(NodeAbstract):
 		child.operators = "L"
 		child.state.row = self.state.row
 		child.state.column = self.state.column
-		newChild(child)
+		self.newChild(child)
 		children.append(child)
 		
 		return children
 		
 	def adjustLocation(self, child):
-		rows = self.state.matrix.rows
-		columns = self.state.matrix.columns
+		rows = maze.field.rows
+		columns = maze.field.columns
+
 		if (child.state.direction == 0) and (self.state.column > 0) and ("UP" not in matrix[self.state.row][self.state.column].walls):
 			child.state.row = self.state.row
 			child.state.column = self.state.column - 1
