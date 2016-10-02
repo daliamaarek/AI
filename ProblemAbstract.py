@@ -1,19 +1,18 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-
-class Problem:
+class ProblemAbstract:
 	__metaclass__= ABCMeta
 
 	@abstractproperty
-	def operators(self): pass
+	def operators(self, operators): pass
 
 	@abstractproperty
-	def initialState(self): pass
-	
+	def initialState(self, initial_state): pass
+		
 	@abstractproperty
+	def pathCost(self, path_cost): pass
+
+	def __init__(self, operators, initial_state, goal_test, path_cost): pass
+
+	@abstractmethod
 	def goalTest(self): pass
-	
-	@abstractproperty
-	def pathCost(self): pass
- 
-	

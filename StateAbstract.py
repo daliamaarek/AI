@@ -1,19 +1,20 @@
-from abc import ABCMeta, abstractmethod, abstractproperty
 
 
 class State():
-	__metaclass__= ABCMeta
-	
-	@abstractproperty
-	def row(self): pass
 
-	@abstractproperty
-	def column(self): pass
+	self.row = 0
+	self.column = 0
+	self.direction = 0
+	self.pokemonCaptured = ""
 
-	@abstractproperty
-	def direction(self): pass
+	def setRow(self, row):
+		self.row = row
 
-	@abstractproperty
-	def matrix(self): pass #Or Bitmask 
+	def setColumn(self, column):
+		self.column = column 
 
-	
+	def setDirection(self, direction):
+		self.direction = direction
+		
+	def setPokemonCaptured(self, pokemonCaptured):
+		self.pokemonCaptured = pokemonCaptured
