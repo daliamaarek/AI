@@ -28,19 +28,11 @@ class Node(NodeAbstract):
 
 	def expand(self):
 		children = []
-	#forward
-		child = Node()
-		child.state.direction = self.state.direction
-		child.operators = "F"
-		child.cost = self.cost + 1
-		self.newChild(child)
-		self.adjustLocation(child)		
-		if child.state.direction is not None:
-			children.append(child)
+	
 	#right 
 		child = Node()
 		child.state.direction = (self.state.direction + 1)%4
-		child.operators = "R"
+		child.operators = "RR"
 		child.cost = self.cost 
 		child.state.row = self.state.row
 		child.state.column = self.state.column
@@ -50,12 +42,21 @@ class Node(NodeAbstract):
 		child = Node()
 		child.state.direction = (self.state.direction +3)%4 
 		child.cost = self.cost 
-		child.operators = "L"
+		child.operators = "RL"
 		child.state.row = self.state.row
 		child.state.column = self.state.column
 		self.newChild(child)
 		children.append(child)
 		
+	#forward
+		child = Node()
+		child.state.direction = self.state.direction
+		child.operators = "F"
+		child.cost = self.cost + 1
+		self.newChild(child)
+		self.adjustLocation(child)		
+		if child.state.direction is not None:
+			children.append(child)
 		return children
 		
 	def adjustLocation(self, child):
@@ -63,16 +64,16 @@ class Node(NodeAbstract):
 		columns = maze.columns
 		matrix = maze.field
 
-		if (child.state.direction == 0) and (self.state.column > 0) and ("UP" not in matrix[self.state.row][self.state.column].walls):
+		if (child.state.direction == 0) and (self.state.row > 0) and ("UP" not in matrix[self.state.row][self.state.column].walls):
 			child.state.row = self.state.row - 1
 			child.state.column = self.state.column
-		elif (child.state.direction == 1) and (self.state.row + 1 < rows) and ("RIGHT" not in matrix[self.state.row][self.state.column].walls):
+		elif (child.state.direction == 1) and (self.state.column + 1 < columns) and ("RIGHT" not in matrix[self.state.row][self.state.column].walls):
 			child.state.row = self.state.row
 			child.state.column = self.state.column + 1
-		elif (child.state.direction == 2) and (self.state.column + 1 < columns) and ("DOWN" not in matrix[self.state.row][self.state.column].walls):
+		elif (child.state.direction == 2) and (self.state.row + 1 < rows) and ("DOWN" not in matrix[self.state.row][self.state.column].walls):
 			child.state.row = self.state.row + 1
 			child.state.column = self.state.column
-		elif (child.state.direction == 3) and (self.state.row > 0 )and ("LEFT" not in matrix[self.state.row][self.state.column].walls):
+		elif (child.state.direction == 3) and (self.state.column > 0 )and ("LEFT" not in matrix[self.state.row][self.state.column].walls):
 			child.state.row = self.state.row
 			child.state.column = self.state.column - 1
 		else:

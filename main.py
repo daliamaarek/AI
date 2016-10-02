@@ -6,7 +6,10 @@ from State import *
 from Queue import *
 from createMaze import *
 
+
+
 def generalSearch(maze, strategy, visualize):
+	visited = []
 	nodes = Queue()
 	setQueue(nodes, strategy)
 	curr_state = problem.initial_state
@@ -14,10 +17,9 @@ def generalSearch(maze, strategy, visualize):
 	initial_node.state = curr_state
 	initial_node.depth = 0
 	nodes.enqueue(initial_node)
-	if(initial_node == None):
-		print "MALAK"
 	final_depth = 1
 	max_depth = maze.rows * maze.columns * 100
+	
 	if(strategy == "ID"):
 		while final_depth <= max_depth:
 			while len(nodes) > 0 :
@@ -35,12 +37,20 @@ def generalSearch(maze, strategy, visualize):
 		while nodes.len() > 0 :
 			nodes.dequeue()
 			curr_node = nodes.dequeuedValue
+			
+			if(curr_node.state in visited):
+				continue
+
+			print ((curr_node.state) in visited)
+			visited = visited + [curr_node.state]
 			# print curr_node.cost
+
 			print "Pokemons Captured: " + str(curr_node.state.pokemonCaptured)
 			print "Curr Row: " + str(curr_node.state.row)
 			print "Curr Col: " + str(curr_node.state.column)
 			print "Depth " + str(curr_node.depth)
-			print "Direction" + str(curr_node.state.direction)
+			print "Direction " + str(curr_node.state.direction)
+			print "Path Cost " + str(curr_node.cost)
 			if(curr_node.parent != None):
 				print "Parent row" + str(curr_node.parent.state.row)
 				print "Parent Col" + str(curr_node.parent.state.column)
@@ -67,11 +77,14 @@ def setQueue(nodes, strategy):
 	elif strategy == "ID":
 		nodes.searchType = "LIFO"
 	elif strategy == "UC":
-		nodes.strategy = "PrioritizedInsert"
+		nodes.searchType = "PrioritizedInsert"
+
 
 
 
 maze.genMaze()
+
+print "Required Steps: " + str(maze.steps)
 for i in range(0,rows):
 	for j in range(0,columns):
 		print field[i][j].walls
@@ -97,12 +110,12 @@ for i in range (0,pokemons_size):
 	state.pokemonCaptured = "0" + state.pokemonCaptured
 
 final_state = State()
-final_state.row = 3
-final_state.column = 2
+final_state.row = 0
+final_state.column = 0
 
 maze = Maze(field,rows,columns)
-problem = Problem(["RR","RL","F"], state, final_state, 1, maze.steps)
-generalSearch(maze, "BF", False)
+problem = Problem(["F","RL","RR"], state, final_state, 1, maze.steps)
+generalSearch(maze, "UC", False)
 
 
 
