@@ -4,6 +4,7 @@ from Maze import *
 from Node import *
 from State import *
 from Queue import *
+from createMaze import *
 
 def generalSearch(maze, strategy, visualize):
 	nodes = Queue()
@@ -35,9 +36,14 @@ def generalSearch(maze, strategy, visualize):
 			nodes.dequeue()
 			curr_node = nodes.dequeuedValue
 			# print curr_node.cost
-			print curr_node.state.pokemonCaptured
-			print curr_node.depth
-			print curr_node.parent
+			print "Pokemons Captured: " + str(curr_node.state.pokemonCaptured)
+			print "Curr Row: " + str(curr_node.state.row)
+			print "Curr Col: " + str(curr_node.state.column)
+			print "Depth " + str(curr_node.depth)
+			print "Direction" + str(curr_node.state.direction)
+			if(curr_node.parent != None):
+				print "Parent row" + str(curr_node.parent.state.row)
+				print "Parent Col" + str(curr_node.parent.state.column)
 			print "NODE DONE"
 
 			if(strategy == "ID" and curr_node.depth > final_depth):
@@ -50,6 +56,9 @@ def generalSearch(maze, strategy, visualize):
 				nodes.enqueue(children[i])
 	return None
 
+# def valid(row,column):
+# 	return row >= 0 and row < maze.field.rows and column >= 0 and column < maze.field.columns
+
 def setQueue(nodes, strategy):
 	if strategy == "BF" :
 		nodes.searchType = "FIFO"
@@ -61,17 +70,7 @@ def setQueue(nodes, strategy):
 		nodes.strategy = "PrioritizedInsert"
 
 
-rows = 4
-columns = 3
-field = [[Cell() for j in range(columns)] for i in range(rows)]
-for i in range(0,rows):
-	for j in range(0,columns):
-		field[i][j].row = i
-		field[i][j].column = j
 
-
-
-maze = Maze(field,rows,columns)
 maze.genMaze()
 for i in range(0,rows):
 	for j in range(0,columns):

@@ -1,5 +1,4 @@
 class Cell:
-	
 	def __init__(self, isPokemon, row, column):
 		self.walls = ["UP","DOWN","LEFT","RIGHT"]
 		self.isPokemon = isPokemon
