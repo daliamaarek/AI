@@ -50,6 +50,8 @@ class Node(NodeAbstract):
 		newChild(child)
 		children.append(child)
 		
+		return children
+		
 	def adjustLocation(self, child):
 		rows = self.state.matrix.rows
 		columns = self.state.matrix.columns
