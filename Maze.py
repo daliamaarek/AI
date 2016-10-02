@@ -7,6 +7,8 @@ class Maze:
 		self.field = field
 		self.rows = rows
 		self.columns = columns
+		self.map = []
+		self.count_pokemons = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
 
@@ -58,6 +60,8 @@ class Maze:
 			curr_pos = self.pokemons[i]
 			row = curr_pos/columns
 			column = curr_pos - row*columns
+			self.map[(row,column)] = self.count_pokemons
+			self.count_pokemons = self.count_pokemons + 1
 			# print str(row) + " " + str(column)
 			self.field[row][column].isPokemon = True
 
@@ -77,7 +81,7 @@ class Maze:
 		while (len(all_walls) != 0):
 			x = randint(0,len(all_walls) - 1)
 			curr_wall = all_walls[x]
-			print len(all_walls)
+			# print len(all_walls)
 			all_walls.remove(curr_wall)
 			# checks for border walls
 			if((curr_wall[0] == 0 and curr_wall[2] == "UP") or (curr_wall[1] == 0 and curr_wall[2] == "LEFT")
@@ -109,21 +113,9 @@ class Maze:
 					curr_walls[i] = (start_row, start_column, curr_walls[i])
 				all_walls = all_walls + curr_walls
 
-			
+				
 
-rows = 4
-columns = 3
-field = [[Cell() for j in range(columns)] for i in range(rows)]
-for i in range(0,rows):
-	for j in range(0,columns):
-		field[i][j].row = i
-		field[i][j].column = j
 
-maze = Maze(field,rows,columns)
-maze.genMaze()
-for i in range(0,rows):
-	for j in range(0,columns):
-		print field[i][j].walls
 		# print  str(field[i][j].isPokemon)
 		# print field[i][j].row
 		# print field[i][j].column

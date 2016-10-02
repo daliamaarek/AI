@@ -1,5 +1,9 @@
-
-# problem = Problem()
+from Cell import *
+from Problem import *
+from Maze import *
+from Node import *
+from State import *
+from Queue import *
 
 def generalSearch(maze, strategy, visualize):
 	nodes = Queue()
@@ -12,18 +16,36 @@ def generalSearch(maze, strategy, visualize):
 
 	final_depth = 1
 	max_depth = maze.rows * maze.columns * 100
-	while final_depth <= max_depth:
+	if(strategy == "ID"):
+		while final_depth <= max_depth:
+			while len(nodes) > 0 :
+				curr_node = nodes.dequeue()
+				if(strategy == "ID" and curr_node.depth > final_depth):
+					continue
+				if problem.goalTest(curr_node) : 
+					return curr_node
+				children_size = len(curr_node.expand())
+				children = curr_node.expand()
+				for i in range(0, children_size):
+					nodes.enqueue(children[i])
+			final_depth = final_depth + 1
+	else:
 		while len(nodes) > 0 :
 			curr_node = nodes.dequeue()
+			print curr_node.cost
+			print curr_node.pokemonCaptured
+			print curr_node.depth
+			print curr_node.parent
+			print "NODE DONE"
+
 			if(strategy == "ID" and curr_node.depth > final_depth):
 				continue
-			if problem.goalTest() : 
+			if problem.goalTest(curr_node) : 
 				return curr_node
 			children_size = len(curr_node.expand())
 			children = curr_node.expand()
 			for i in range(0, children_size):
 				nodes.enqueue(children[i])
-		final_depth++
 	return None
 
 def setQueue(nodes, strategy):
@@ -36,4 +58,52 @@ def setQueue(nodes, strategy):
 	elif strategy == "UC":
 		nodes.strategy = "PrioritizedInsert"
 
+
+rows = 4
+columns = 3
+field = [[Cell() for j in range(columns)] for i in range(rows)]
+for i in range(0,rows):
+	for j in range(0,columns):
+		field[i][j].row = i
+		field[i][j].column = j
+
+
+
+maze = Maze(field,rows,columns)
+maze.genMaze()
+for i in range(0,rows):
+	for j in range(0,columns):
+		print field[i][j].walls
+
+print "-------------------------------------"
+
+print "Pokemons"
+
+for i in range(0,rows):
+	for j in range(0,columns):
+		if(field[i][j].isPokemon == True):
+			print "(i,j) = " + (i,j)
+print "-------------------------------------"
+print "NODES VISITED"
 #GR and AS is missing
+state = State()
+state.row = 1
+state.column = 1
+state.direction = 0
+pokemons_size = len(maze.map)
+for i in range (0,pokemons_size):
+	state.pokemonCaptured = "0" + state.pokemonCaptured
+
+final_state = State()
+final_state.row = 3
+final_state.column = 2
+
+maze = Maze(field,rows,columns)
+problem = Problem(["RR","RL","F"], state, final_state, 1, maze.steps)
+
+
+
+
+
+
+
