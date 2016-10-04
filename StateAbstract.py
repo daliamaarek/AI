@@ -1,7 +1,4 @@
-class State():
-
-	
-	self.row = 0
-	self.column = 0
-	self.direction = 0
-	self.pokemonCaptured = ""
+from abc import ABCMeta, abstractmethod, abstractproperty
+ 
+class StateAbstract():
+	__metaclass__= ABCMeta

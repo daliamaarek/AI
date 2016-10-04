@@ -22,4 +22,4 @@ class NodeAbstract:
 
 	#methods 
 	@abstractmethod
-	def expand(self): pass
+	def expand(self, operators): pass

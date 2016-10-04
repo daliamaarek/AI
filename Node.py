@@ -7,8 +7,7 @@ class Node(NodeAbstract):
 	def __init__(self):
 		self.state = State()
 		self.parent = None
-		self.operators = ["RL","RR","F"]
-		self.depth = 0
+ 		self.depth = 0
 		self.cost = 0
 
 	def state(self, stateValue):
@@ -26,37 +25,31 @@ class Node(NodeAbstract):
 	def cost(self, costValue):
 		self.cost = costValue
 
-	def expand(self):
+	def expand(self, operators):
 		children = []
 	
-	#right 
-		child = Node()
-		child.state.direction = (self.state.direction + 1)%4
-		child.operators = "RR"
-		child.cost = self.cost 
-		child.state.row = self.state.row
-		child.state.column = self.state.column
-		self.newChild(child)
-		children.append(child)
-	#left
-		child = Node()
-		child.state.direction = (self.state.direction +3)%4 
-		child.cost = self.cost 
-		child.operators = "RL"
-		child.state.row = self.state.row
-		child.state.column = self.state.column
-		self.newChild(child)
-		children.append(child)
-		
-	#forward
-		child = Node()
-		child.state.direction = self.state.direction
-		child.operators = "F"
-		child.cost = self.cost + 1
-		self.newChild(child)
-		self.adjustLocation(child)		
-		if child.state.direction is not None:
-			children.append(child)
+		for i in range(0,len(self.operators)):
+			child = Node()
+			self.newChild(child)
+			if(self.operators[i]=="F"):
+				child.state.direction = self.state.direction
+				child.operators = "F"
+				child.cost = self.cost + 1
+				self.adjustLocation(child)		
+			elif(self.operators[i]=="RL"):
+				child.state.direction = (self.state.direction +3)%4 
+				child.cost = self.cost 
+				child.operators = "RL"
+				child.state.row = self.state.row
+				child.state.column = self.state.column
+			elif(self.operators[i]=="RR"):
+				child.state.direction = (self.state.direction + 1)%4
+				child.operators = "RR"
+				child.cost = self.cost 
+				child.state.row = self.state.row
+				child.state.column = self.state.column
+			if child.state.direction is not None:
+				children.append(child)
 		return children
 		
 	def adjustLocation(self, child):

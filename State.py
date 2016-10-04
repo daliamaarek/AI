@@ -1,4 +1,6 @@
-class State():
+from StateAbstract import *
+
+class State(StateAbstract):
 	def __init__(self):
 		self.row = 0
 		self.column = 0
