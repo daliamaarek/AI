@@ -8,7 +8,7 @@ from createMaze import *
 from Heuristics import * 
 
 
-def generalSearch(maze, strategy, visualize, operators):
+def generalSearch(maze, strategy, visualize):
 	visited = []
 	nodes = Queue()
 	setQueue(nodes, strategy)
@@ -17,19 +17,17 @@ def generalSearch(maze, strategy, visualize, operators):
 	initial_node.state = curr_state
 	initial_node.depth = 0
 	nodes.enqueue(initial_node)
-	final_depth = 1
-	max_depth = maze.rows * maze.columns * 100
-	
+	final_depth = 0
 	if(strategy == "ID"):
-		while final_depth <= max_depth:
-			while len(nodes) > 0 :
+		while True:
+			while len(nodes) > 0:
 				curr_node = nodes.dequeue()
-				if(strategy == "ID" and curr_node.depth > final_depth):
-					continue
 				if problem.goalTest(curr_node) : 
 					return curr_node
-				children_size = len(curr_node.expand(operators))
-				children = curr_node.expand(operators)
+				if(strategy == "ID" and curr_node.depth >= final_depth):
+					continue
+				children_size = len(curr_node.expand(problem.operators))
+				children = curr_node.expand(problem.operators)
 				for i in range(0, children_size):
 					nodes.enqueue(children[i])
 			final_depth = final_depth + 1
@@ -37,14 +35,11 @@ def generalSearch(maze, strategy, visualize, operators):
 		while nodes.len() > 0 :
 			nodes.dequeue()
 			curr_node = nodes.dequeuedValue
-			
+			print "QUEUE SIZE: " + str(nodes.len())
 			if(curr_node.state in visited):
 				continue
-
-			print ((curr_node.state) in visited)
 			visited = visited + [curr_node.state]
 			# print curr_node.cost
-
 			print "Pokemons Captured: " + str(curr_node.state.pokemonCaptured)
 			print "Curr Row: " + str(curr_node.state.row)
 			print "Curr Col: " + str(curr_node.state.column)
@@ -58,10 +53,11 @@ def generalSearch(maze, strategy, visualize, operators):
 
 			if(strategy == "ID" and curr_node.depth > final_depth):
 				continue
-			if problem.goalTest(curr_node) : 
+			if problem.goalTest(curr_node):
+				print 'Found' 
 				return curr_node
-			children_size = len(curr_node.expand(operators))
-			children = curr_node.expand(operators)
+			children_size = len(curr_node.expand(problem.operators))
+			children = curr_node.expand(problem.operators)
 			for i in range(0, children_size):
 				nodes.enqueue(children[i])
 	return None
@@ -79,9 +75,6 @@ def setQueue(nodes, strategy):
 	elif strategy == "UC":
 		nodes.searchType = "PrioritizedInsert"
 
-
-
-
 maze.genMaze()
 
 print "Required Steps: " + str(maze.steps)
@@ -98,7 +91,12 @@ for i in range(0,rows):
 		if(field[i][j].isPokemon == True):
 			print "(i,j) = " + str((i,j))
 print "-------------------------------------"
+
+print maze.map
+print (1,0) in maze.map
 print "NODES VISITED"
+
+
 #GR and AS is missing
 state = State()
 state.row = 1
@@ -112,10 +110,14 @@ for i in range (0,pokemons_size):
 final_state = State()
 final_state.row = 0
 final_state.column = 0
+final_state.pokemonCaptured = ""
+for i in range(0,len(state.pokemonCaptured)):
+	final_state.pokemonCaptured = '1' + final_state.pokemonCaptured
 
-maze = Maze(field,rows,columns)
-problem = Problem(["F","RL","RR"], state, final_state, 1, maze.steps)
-generalSearch(maze, "UC", False, problem.operators) 
+problem = Problem(["RL","RR","F"], state, final_state, 1, maze.steps)
+node = generalSearch(maze, "DF", False) 
+
+print (node is None)
 
 
 
