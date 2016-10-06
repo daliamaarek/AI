@@ -5,7 +5,7 @@ from Node import *
 from State import *
 from Queue import *
 from createMaze import *
-
+from Heuristics import * 
 
 
 def generalSearch(maze, strategy, visualize):
@@ -115,7 +115,7 @@ final_state.column = 0
 
 maze = Maze(field,rows,columns)
 problem = Problem(["F","RL","RR"], state, final_state, 1, maze.steps)
-generalSearch(maze, "UC", False)
+generalSearch(maze, "UC", False) 
 
 
 
