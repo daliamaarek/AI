@@ -27,22 +27,21 @@ class Node(NodeAbstract):
 
 	def expand(self, operators):
 		children = []
-	
-		for i in range(0,len(self.operators)):
+		for i in range(0,len(operators)):
 			child = Node()
 			self.newChild(child)
-			if(self.operators[i]=="F"):
+			if(operators[i]=="F"):
 				child.state.direction = self.state.direction
 				child.operators = "F"
 				child.cost = self.cost + 1
 				self.adjustLocation(child)		
-			elif(self.operators[i]=="RL"):
+			elif(operators[i]=="RL"):
 				child.state.direction = (self.state.direction +3)%4 
 				child.cost = self.cost 
 				child.operators = "RL"
 				child.state.row = self.state.row
 				child.state.column = self.state.column
-			elif(self.operators[i]=="RR"):
+			elif(operators[i]=="RR"):
 				child.state.direction = (self.state.direction + 1)%4
 				child.operators = "RR"
 				child.cost = self.cost 

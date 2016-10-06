@@ -8,7 +8,7 @@ from createMaze import *
 from Heuristics import * 
 
 
-def generalSearch(maze, strategy, visualize):
+def generalSearch(maze, strategy, visualize, operators):
 	visited = []
 	nodes = Queue()
 	setQueue(nodes, strategy)
@@ -28,8 +28,8 @@ def generalSearch(maze, strategy, visualize):
 					continue
 				if problem.goalTest(curr_node) : 
 					return curr_node
-				children_size = len(curr_node.expand())
-				children = curr_node.expand()
+				children_size = len(curr_node.expand(operators))
+				children = curr_node.expand(operators)
 				for i in range(0, children_size):
 					nodes.enqueue(children[i])
 			final_depth = final_depth + 1
@@ -60,8 +60,8 @@ def generalSearch(maze, strategy, visualize):
 				continue
 			if problem.goalTest(curr_node) : 
 				return curr_node
-			children_size = len(curr_node.expand())
-			children = curr_node.expand()
+			children_size = len(curr_node.expand(operators))
+			children = curr_node.expand(operators)
 			for i in range(0, children_size):
 				nodes.enqueue(children[i])
 	return None
@@ -115,7 +115,7 @@ final_state.column = 0
 
 maze = Maze(field,rows,columns)
 problem = Problem(["F","RL","RR"], state, final_state, 1, maze.steps)
-generalSearch(maze, "UC", False) 
+generalSearch(maze, "UC", False, problem.operators) 
 
 
 
