@@ -128,8 +128,7 @@ print "nearest pokemon"
 n = Node()
 n.state = state
 
-print str(h.manhattanGoal(maze, n , final_state))
-
+print str(h.H2(maze, n , final_state))
 print "-------------------------------------"
 
 print "Pokemons"
@@ -140,4 +139,5 @@ for i in range(0,rows):
 			print "(i,j) = " + str((i,j))
 
 
+print(h.H4(n, maze))
 
