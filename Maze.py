@@ -1,5 +1,5 @@
 from random import randint, random, sample
-from Cell import *
+from State import *
 
 class Maze:
 	
@@ -8,10 +8,12 @@ class Maze:
 		self.rows = rows
 		self.columns = columns
 		self.map = dict()
+		self.reverse_map = dict()
 		self.count_pokemons = 0
 		self.steps = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
+
 
 	def update(self, start, end):
 		# print self.field[start[0]][start[1]].walls
@@ -62,6 +64,7 @@ class Maze:
 			row = curr_pos/columns
 			column = curr_pos - row*columns
 			self.map[(row,column)] = self.count_pokemons
+			self.reverse_map[self.count_pokemons] = (row,column)
 			self.count_pokemons = self.count_pokemons + 1
 			# print str(row) + " " + str(column)
 			self.field[row][column].isPokemon = True
@@ -114,7 +117,18 @@ class Maze:
 					curr_walls[i] = (start_row, start_column, curr_walls[i])
 				all_walls = all_walls + curr_walls
 
-				
+	def visualize(self, node):
+		print "Current position = (" + str(node.row) + " " + str(node.column) + ")"
+		print "Walls at curr position: " + str(self.field[node.row][node.column].walls)
+		print "Pokemons' positions:"
+		for i in range (0,len(node.state.pokemonCaptured)):
+			print self.field[self.reverse_map[i][0]][self.reverse_map[i][1]]
+		print "----------------------------------"
+		if(node.parent != None):
+			self.visualize(node.parent)
+
+			
+
 
 
 		# print  str(field[i][j].isPokemon)
