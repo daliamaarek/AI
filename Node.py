@@ -25,28 +25,37 @@ class Node(NodeAbstract):
 	def cost(self, costValue):
 		self.cost = costValue
 
+	def __eq__(self, other):
+		# if((self.parent is not None and other.parent is None) or (self.parent is None and other.parent is not None)):
+		# 	return False
+		# self.parent == other.parent and
+		return ( self.cost == other.cost and self.state == other.state)
+
 	def expand(self, operators):
 		children = []
 		for i in range(0,len(operators)):
 			child = Node()
-			self.newChild(child)
 			if(operators[i]=="F"):
 				child.state.direction = self.state.direction
 				child.operators = "F"
 				child.cost = self.cost + 1
 				self.adjustLocation(child)		
+				self.newChild(child)
 			elif(operators[i]=="RL"):
 				child.state.direction = (self.state.direction +3)%4 
 				child.cost = self.cost 
 				child.operators = "RL"
 				child.state.row = self.state.row
 				child.state.column = self.state.column
+				self.newChild(child)
 			elif(operators[i]=="RR"):
 				child.state.direction = (self.state.direction + 1)%4
 				child.operators = "RR"
 				child.cost = self.cost 
 				child.state.row = self.state.row
 				child.state.column = self.state.column
+				self.newChild(child)
+
 			if child.state.direction is not None:
 				children.append(child)
 		return children
@@ -80,5 +89,3 @@ class Node(NodeAbstract):
 			pokemonslist[maze.map[(child.state.row,child.state.column)]] = '1'
 		child.state.pokemonCaptured = "".join(pokemonslist)
 
-n = Node()
-# n.expand()
