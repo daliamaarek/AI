@@ -6,7 +6,7 @@ from State import *
 from Queue import *
 from createMaze import *
 from Heuristics import * 
-
+from createMaze import *
 
 def generalSearch(maze, strategy, visualize, operators):
 	visited = []
@@ -89,14 +89,7 @@ for i in range(0,rows):
 	for j in range(0,columns):
 		print field[i][j].walls
 
-print "-------------------------------------"
 
-print "Pokemons"
-
-for i in range(0,rows):
-	for j in range(0,columns):
-		if(field[i][j].isPokemon == True):
-			print "(i,j) = " + str((i,j))
 print "-------------------------------------"
 print "NODES VISITED"
 #GR and AS is missing
@@ -110,15 +103,29 @@ for i in range (0,pokemons_size):
 	state.pokemonCaptured = "0" + state.pokemonCaptured
 
 final_state = State()
-final_state.row = 0
-final_state.column = 0
+final_state.row = 1
+final_state.column = 1
 
-maze = Maze(field,rows,columns)
 problem = Problem(["F","RL","RR"], state, final_state, 1, maze.steps)
-generalSearch(maze, "UC", False, problem.operators) 
+generalSearch(maze, "DF", False, problem.operators) 
 
+h = Heuristics()
 
+print "-------------------------------------"
+print "nearest pokemon"
+n = Node()
+n.state = state
 
+print str(h.manhattanGoal(maze, n , final_state))
+
+print "-------------------------------------"
+
+print "Pokemons"
+
+for i in range(0,rows):
+	for j in range(0,columns):
+		if(field[i][j].isPokemon == True):
+			print "(i,j) = " + str((i,j))
 
 
 

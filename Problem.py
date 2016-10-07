@@ -26,3 +26,4 @@ class Problem(ProblemAbstract):
 			if("0" not in node.state.pokemonCaptured):
 				return True
 		return False
+		
