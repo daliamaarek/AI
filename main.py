@@ -129,8 +129,7 @@ print "nearest pokemon"
 n = Node()
 n.state = state
 
-print "shortest path " + str(h.manhattanPokemon(maze, n ))
-print n.state.direction
+print str(h.H2(maze, n , final_state))
 print "-------------------------------------"
 
 print "Pokemons"
@@ -141,4 +140,5 @@ for i in range(0,rows):
 			print "(i,j) = " + str((i,j))
 
 
+print(h.H4(n, maze))
 
