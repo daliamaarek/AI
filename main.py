@@ -124,10 +124,9 @@ print (node is None)
 h = Heuristics()
 
 print "-------------------------------------"
-print "nearest pokemon"
-
 n = Node()
 n.state = state
+
 
 print str(h.H2(maze, n , final_state))
 print "-------------------------------------"

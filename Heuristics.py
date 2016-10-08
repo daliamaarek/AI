@@ -17,11 +17,9 @@ class Heuristics():
 		
 		for i in range(0, len(pokemons)):
 				if ((node.state.direction == 0 and pokemons[i][0] < self.curr_row) or ((node.state.direction == 1 and pokemons[i][0] > curr_col)) or ((node.state.direction == 2 and pokemons[i][0] > curr_row)) or ((node.state.direction == 3 and pokemons[i][1] < curr_col))):  
-					print "north"
 					self.diff_row = abs(curr_row - pokemons[i][0])
 					self.diff_col = abs(curr_col - pokemons[i][1])
 					self.nearest_pokemon = self.diff_row + self.diff_col
-					print "first shortest node is : " + str((pokemons[i][0], pokemons[i][1]))
 					return [pokemons[i][0], pokemons[i][1], self.nearest_pokemon,i]
 
 		return [-1,-1,-1,len(pokemons)-1]	
@@ -69,6 +67,7 @@ class Heuristics():
 				if(self.diff_pok < self.nearest_pokemon ):
 					self.nearest_row = self.pokemons[i][0]
 					self.nearest_col = self.pokemons[i][1]
+					self.nearest_pokemon = self.diff_pok
 			
 		return (self.nearest_row, self.nearest_col)
 
