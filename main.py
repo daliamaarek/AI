@@ -36,9 +36,7 @@ def generalSearch(maze, strategy, visualize):
 			nodes.dequeue()
 			curr_node = nodes.dequeuedValue
 			print "QUEUE SIZE: " + str(nodes.len())
-			if(curr_node.state in visited):
-				continue
-			visited = visited + [curr_node.state]
+			
 			# print curr_node.cost
 			print "Pokemons Captured: " + str(curr_node.state.pokemonCaptured)
 			print "Curr Row: " + str(curr_node.state.row)
@@ -102,14 +100,6 @@ for i in range (0,pokemons_size):
 
 final_state = State()
 
-# <<<<<<< HEAD
-# final_state.row = 1
-# final_state.column = 1
-
-# problem = Problem(["F","RL","RR"], state, final_state, 1, maze.steps)
-# generalSearch(maze, "DF", False, problem.operators) 
-# =======
-
 final_state.row = 0
 final_state.column = 0
 final_state.pokemonCaptured = ""
@@ -120,24 +110,3 @@ problem = Problem(["RL","RR","F"], state, final_state, 1, maze.steps)
 node = generalSearch(maze, "DF", False) 
 
 print (node is None)
-
-h = Heuristics()
-
-print "-------------------------------------"
-print "nearest pokemon"
-n = Node()
-n.state = state
-
-print str(h.H2(maze, n , final_state))
-print "-------------------------------------"
-
-print "Pokemons"
-
-for i in range(0,rows):
-	for j in range(0,columns):
-		if(field[i][j].isPokemon == True):
-			print "(i,j) = " + str((i,j))
-
-
-print(h.H4(n, maze))
-
