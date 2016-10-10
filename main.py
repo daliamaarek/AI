@@ -90,9 +90,9 @@ print "NODES VISITED"
 
 #GR and AS is missing
 state = State()
-state.row = 1
-state.column = 1
-state.direction = 0
+state.row = 2
+state.column = 2
+state.direction = 3
 pokemons_size = len(maze.map)
 state.pokemonCaptured = ""
 for i in range (0,pokemons_size):
