@@ -35,26 +35,26 @@ class Node(NodeAbstract):
 		children = []
 		for i in range(0,len(operators)):
 			child = Node()
+			
 			if(operators[i]=="F"):
 				child.state.direction = self.state.direction
 				child.operators = "F"
-				child.cost = self.cost + 1
 				self.adjustLocation(child)		
-				self.newChild(child)
+				child.cost = self.cost + 1
 			elif(operators[i]=="RL"):
 				child.state.direction = (self.state.direction +3)%4 
 				child.cost = self.cost 
 				child.operators = "RL"
 				child.state.row = self.state.row
 				child.state.column = self.state.column
-				self.newChild(child)
 			elif(operators[i]=="RR"):
 				child.state.direction = (self.state.direction + 1)%4
 				child.operators = "RR"
 				child.cost = self.cost 
 				child.state.row = self.state.row
 				child.state.column = self.state.column
-				self.newChild(child)
+
+			self.newChild(child)
 
 			if child.state.direction is not None:
 				children.append(child)
@@ -64,7 +64,6 @@ class Node(NodeAbstract):
 		rows = maze.rows
 		columns = maze.columns
 		matrix = maze.field
-
 		if (child.state.direction == 0) and (self.state.row > 0) and ("UP" not in matrix[self.state.row][self.state.column].walls):
 			child.state.row = self.state.row - 1
 			child.state.column = self.state.column
@@ -89,3 +88,14 @@ class Node(NodeAbstract):
 			pokemonslist[maze.map[(child.state.row,child.state.column)]] = '1'
 		child.state.pokemonCaptured = "".join(pokemonslist)
 
+	def printNode(self):
+		print "Pokemons Captured: " + str(self.state.pokemonCaptured)
+		print "Curr Row: " + str(self.state.row)
+		print "Curr Col: " + str(self.state.column)
+		print "Depth " + str(self.depth)
+		print "Direction " + str(self.state.direction)
+		print "Path Cost " + str(self.cost)
+		if(self.parent != None):
+			print "Parent row" + str(self.parent.state.row)
+			print "Parent Col" + str(self.parent.state.column)
+		print "NODE DONE"

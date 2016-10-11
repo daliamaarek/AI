@@ -21,37 +21,7 @@ class Queue:
 			self.nodes = [element] + self.nodes
 		if(self.searchType == "PrioritizedInsert"): #UCS
 			self.nodes.append(element)
-			self.nodes = sorted(self.nodes, key = lambda  node: node.cost)
+			self.nodes = sorted(self.nodes, key = lambda  node: (node.cost,node.operators))
 
 	def len(self):
 		return len(self.nodes)
-
-	
-
-
-
-# x = Node()
-# y = Node()
-# z = Node()
-# n = Node()
-# nodess = []
-# x.cost(3)
-# y.cost(2)
-# z.cost(5)
-# n.cost(1)
-
-# m = Queue(nodess,"PrioritizedInsert")
-
-
-# m.enqueue(x)
-# m.enqueue(y)
-# m.enqueue(z)
-# m.enqueue(n)
-
-# for i in range(0,4):
-# 	 print m.nodes[i].cost
-
-
-
-
-

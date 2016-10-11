@@ -40,7 +40,7 @@ class Maze:
 
 	def updateRowColumn(self,curr_wall, new_row, new_column):
 		if(curr_wall[2] == "DOWN"):
-				new_row += 1
+			new_row += 1
 		elif(curr_wall[2] == "UP"):
 			new_row -= 1 
 		elif(curr_wall[2] == "LEFT"):
@@ -54,7 +54,7 @@ class Maze:
 		rows = self.rows
 		columns = self.columns
 		min_steps = int(rows*columns*(1.0/3))
-		self.steps = randint(min_steps, rows*columns*2)
+		self.steps = 5 #randint(min_steps, rows*columns*2)
 		self.no_of_pokemons = randint(1,int(rows*columns*(1.0/4)))
 		self.pokemons = sample(range(0, rows*columns - 1), self.no_of_pokemons)
 		# print self.steps
