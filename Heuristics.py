@@ -3,6 +3,7 @@ from Maze import *
 from State import *
 from createMaze import *
 import math
+import sys
 
 class Heuristics():
 
@@ -52,20 +53,17 @@ class Heuristics():
 			orientation[2], orientation[3])
 		distance = 0	
 		if(pokemon):
-			currentPokemon = pokemon[0]
-			pokemon.pop(0)
+			currentPokemon = pokemon.pop(0)
 			while(pokemon):
-				minDistance = math.sqrt((pokemon[0][0] - currentPokemon[0])**2 + 
-						(pokemon[0][1] - currentPokemon[1])**2)
-				index = 0
-				for i in range(1, len(pokemon)):
+				minDistance = sys.maxint
+				for i in range(0, len(pokemon)):
 					d = math.sqrt((pokemon[i][0] - currentPokemon[0])**2 + 
 						(pokemon[i][1] - currentPokemon[1])**2)
 					if(minDistance > d):
 					 	minDistance = d
 					 	index = i
 				distance = distance + minDistance
-				currentpokemon = pokemon.pop(index)
+				currentPokemon = pokemon.pop(index)
 		return distance
 
 	
