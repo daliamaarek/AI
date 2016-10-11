@@ -4,8 +4,11 @@ from State import *
 import math
 
 class Heuristics():
-	
-	def getPokemonsWithinRange(self, maze , start_row , start_column, end_row, end_column):
+	def __init__ (self, maze, state):
+		self.maze = maze
+		self.state = state
+
+	def getPokemonsWithinRange(maze , start_row , start_column, end_row, end_column):
 		pokemons = []
 		for i in range(start_row, end_row):
 			for j in range(start_column,end_column):
@@ -13,18 +16,18 @@ class Heuristics():
 					pokemons.append((i,j))	
 		return pokemons				
 
-	def getOnePokemonInRange (self, pokemons,curr_row,curr_col,node):
+	def getOnePokemonInRange (pokemons,curr_row,curr_col,node):
 		
 		for i in range(0, len(pokemons)):
 				if ((node.state.direction == 0 and pokemons[i][0] < self.curr_row) or ((node.state.direction == 1 and pokemons[i][0] > curr_col)) or ((node.state.direction == 2 and pokemons[i][0] > curr_row)) or ((node.state.direction == 3 and pokemons[i][1] < curr_col))):  
 					self.diff_row = abs(curr_row - pokemons[i][0])
 					self.diff_col = abs(curr_col - pokemons[i][1])
 					self.nearest_pokemon = self.diff_row + self.diff_col
-					return [pokemons[i][0], pokemons[i][1], self.nearest_pokemon,i]
+					return (pokemons[i][0], pokemons[i][1], self.nearest_pokemon,i)
 
-		return [-1,-1,-1,len(pokemons)-1]	
+		return (-1,-1,-1,len(pokemons)-1)
 	
-	def getOrientation(self, node, maze):
+	def getOrientation(node, maze):
 		row = node.state.row
 		column = node.state.column
 		start_row = 0 
@@ -45,26 +48,26 @@ class Heuristics():
 		elif(node.state.direction == 3):
 			end_row = maze.rows
 			end_column = column
-		return [start_row, start_column, end_row, end_column]
+		return (start_row, start_column, end_row, end_column)
 
 	#gets distance between agent and pokemon using manhattan distance
-	def H1 (self, maze, node):
-		self.curr_row = node.state.row 
-		self.curr_col = node.state.column
-		self.pokemons = self.getPokemonsWithinRange(maze, 0, 0, maze.rows, maze.columns)
-		self.r = self.getOnePokemonInRange (self.pokemons,self.curr_row,self.curr_col,node)
-		self.nearest_row = self.r[0]
-		self.nearest_col = self.r[1]
-		self.nearest_pokemon =  abs(self.curr_row - self.nearest_row) + abs(self.curr_col -self.nearest_col)
+	def H1 (self, node):
+		curr_row = node.state.row 
+		curr_col = node.state.column
+		pokemons = getPokemonsWithinRange(self.maze, 0, 0, self.maze.rows, self.maze.columns)
+		r = self.getOnePokemonInRange (pokemons, curr_row, curr_col,node)
+		nearest_row = r[0]
+		nearest_col = r[1]
+		nearest_pokemon =  abs(self.curr_row - self.nearest_row) + abs(self.curr_col -self.nearest_col)
 
 		
-		for i in range(self.r[3]+1, len(self.pokemons)-1):
-			if (((node.state.direction == 0) and (self.pokemons[i][0] < self.curr_row)) or ((node.state.direction == 1) and (self.pokemons[i][1] > self.curr_col)) or ((node.state.direction == 2) and (self.pokemons[i][0] > self.curr_row)) or ((node.state.direction == 3) and (self.pokemons[i][1] < self.curr_col))):
+		for i in range(r[3]+1, len(pokemons)-1):
+			if (((node.state.direction == 0) and (self.pokemons[i][0] < curr_row)) or ((node.state.direction == 1) and (pokemons[i][1] > curr_col)) or ((node.state.direction == 2) and (.pokemons[i][0] > curr_row)) or ((node.state.direction == 3) and (pokemons[i][1] < self.curr_col))):
 				print self.pokemons[i][0]
-				self.diff_row = abs(self.curr_row - self.pokemons[i][0])
-				self.diff_col = abs(self.curr_col - self.pokemons[i][1])
-				self.diff_pok = self.diff_row + self.diff_col
-				if(self.diff_pok < self.nearest_pokemon ):
+				diff_row = abs(curr_row - pokemons[i][0])
+				diff_col = abs(curr_col - pokemons[i][1])
+				diff_pok = diff_row + diff_col
+				if(diff_pok < nearest_pokemon ):
 					self.nearest_row = self.pokemons[i][0]
 					self.nearest_col = self.pokemons[i][1]
 					self.nearest_pokemon = self.diff_pok
@@ -72,20 +75,21 @@ class Heuristics():
 		return (self.nearest_row, self.nearest_col)
 
 
-		#gets distance between agent and goal using manhattan distance
-	def H2 (self,maze, node, state):
-		self.curr_row = node.state.row 
-		self.curr_col = node.state.column
-		self.diff_col = state.column
-		self.diff_row = state.row
-		self.distance = abs(self.curr_col - self.diff_col) + abs(self.curr_row - self.diff_row)		
-		return self.distance
+	#gets distance between agent and goal using manhattan distance
+	def H2 (self, node):
+		curr_row = node.state.row 
+		curr_col = node.state.column
+
+		diff_col = self.state.column
+		diff_row = self.state.row
+		distance = abs(curr_col - diff_col) + abs(curr_row - diff_row)		
+		return distance
 
 
 	#gets smallest sum of distances between pokemon in the direction of the node
-	def H3(self, node, maze):
-		orientation = self.getOrientation(node, maze)
-		pokemon = self.getPokemonsWithinRange(maze, orientation[0], orientation[1], 
+	def H3(self, node):
+		orientation = self.getOrientation(node, self.maze)
+		pokemon = self.getPokemonsWithinRange(self.maze, orientation[0], orientation[1], 
 			orientation[2], orientation[3])
 		distance = 0	
 		print "pokemon:"	
@@ -109,13 +113,25 @@ class Heuristics():
 
 	
 	#gets number of Pokemon in the direction of the node
-	def H4(self, node, maze):
-		orientation = self.getOrientation(node, maze)
-		pokemon = self.getPokemonsWithinRange(maze, orientation[0], orientation[1], 
+	def H4(self, node):
+		orientation = self.getOrientation(node, self.maze)
+		pokemon = self.getPokemonsWithinRange(self.maze, orientation[0], orientation[1], 
 			orientation[2], orientation[3])
 		print "pokemon:"	
 		print pokemon
 		return len(pokemon)
+
+	def F1(self, node):
+		return H1(node) + node.cost
+
+	def F2(self, node):
+		return H2(node) + node.cost
+
+	def F3(self, node):
+		return H3(node) + node.cost
+
+	def F1(self, node):
+		return H4(node) + node.cost
 
 
 

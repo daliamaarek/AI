@@ -22,8 +22,6 @@ def generalSearch(maze, strategy, visualize):
 	initial_node.state = curr_state
 	initial_node.depth = 0
 
-	nodes.enqueue(initial_node)
-	
 	if(strategy == "ID"):
 		final_depth = 0
 		while True:
@@ -36,6 +34,7 @@ def generalSearch(maze, strategy, visualize):
 				return return_node
 			final_depth  = final_depth + 1
 	else:
+		nodes.enqueue(initial_node)
 		return_node = search(nodes,strategy)
 		return return_node
 	return None
@@ -55,6 +54,34 @@ def search(nodes,strategy, final_depth = 0):
 		for i in range(0, children_size):
 			nodes.enqueue(children[i])
 	return None
+
+def bestFirstSearch(maze, evalFn, visualize):
+	qnFunction = getHeuristic(evalFn)
+	return generalSearch(maze, evalFn, visualize)
+
+def Astar(maze, evalFn, visualize):
+	qnFunction = getHeuristic(evalFn, 1)
+	return generalSearch(maze, evalFn, visualize)	
+
+def getHeuristic(evalFn, a_star = none):
+	heuristics = Heuristics(maze, final_state)
+	
+	if(evalFn == "nearestPokemonManhattan"):
+		if(a_star is not None):
+			return heuristics.f1
+		return heuristics.h1
+	if(evalFn == "goalPositionManhattan"):
+		if(a_star is not None):
+			return heuristics.f2
+		return heuristics.h2
+	if(evalFn == "distancePokemonsInDirection"):
+		if(a_star is not None):
+			return heuristics.f3
+		return heuristics.h3
+	if(evalFn == "numberOfPokemonsInDirection"):
+		if(a_star is not None):
+			return heuristics.f4
+		return heuristics.h4
 
 def setQueue(nodes, strategy):
 	if strategy == "BF" :
