@@ -18,7 +18,14 @@ class Queue:
 	def enqueue(self, element):
 		if(callable(self.searchType)):
 			self.nodes.append(element)
-			self.nodes = sorted(self.nodes, key = lambda  node: self.searchType)
+			self.nodes = sorted(self.nodes, key = self.searchType)
+			# print "START QUEUE"
+			# for i in range(0,len(self.nodes)):
+			# 	print self.nodes[i]
+			# 	print self.searchType(self.nodes[i])
+			# print "END QUEUE"
+
+
 		elif(self.searchType == "FIFO"): #BFS
 			self.nodes.append(element)
 		elif(self.searchType == "LIFO"): #DFS

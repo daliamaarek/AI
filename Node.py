@@ -10,6 +10,9 @@ class Node(NodeAbstract):
  		self.depth = 0
 		self.cost = 0
 
+	def __str__(self):
+		return "(  " + str(self.cost + self.state.row + self.state.column) + "  )"
+
 	def state(self, stateValue):
 		self.state = stateValue
 
@@ -41,21 +44,23 @@ class Node(NodeAbstract):
 				child.operators = "F"
 				self.adjustLocation(child)		
 				child.cost = self.cost + 1
+				child.state.steps = self.state.steps + 1
 			elif(operators[i]=="RL"):
 				child.state.direction = (self.state.direction +3)%4 
-				child.cost = self.cost 
+				child.cost = self.cost + 1
+				child.state.steps = self.state.steps
 				child.operators = "RL"
 				child.state.row = self.state.row
 				child.state.column = self.state.column
 			elif(operators[i]=="RR"):
 				child.state.direction = (self.state.direction + 1)%4
 				child.operators = "RR"
-				child.cost = self.cost 
+				child.cost = self.cost + 1
+				child.state.steps = self.state.steps
 				child.state.row = self.state.row
 				child.state.column = self.state.column
 
 			self.newChild(child)
-
 			if child.state.direction is not None:
 				children.append(child)
 		return children
@@ -95,6 +100,7 @@ class Node(NodeAbstract):
 		print "Depth " + str(self.depth)
 		print "Direction " + str(self.state.direction)
 		print "Path Cost " + str(self.cost)
+		print "Steps: " + str(self.state.steps)
 		if(self.parent != None):
 			print "Parent row" + str(self.parent.state.row)
 			print "Parent Col" + str(self.parent.state.column)

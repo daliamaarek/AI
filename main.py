@@ -21,6 +21,7 @@ def generalSearch(maze, strategy, visualize):
 	initial_node = Node()
 	initial_node.state = curr_state
 	initial_node.depth = 0
+	initial_node = captureInitialPokemon(initial_node)
 
 	if(strategy == "ID"):
 		final_depth = 0
@@ -38,6 +39,13 @@ def generalSearch(maze, strategy, visualize):
 		return_node = search(nodes,strategy)
 		return return_node
 	return None
+
+def captureInitialPokemon(initial_node):
+	pokemonslist = list(initial_node.state.pokemonCaptured)
+	if((initial_node.state.row,initial_node.state.column) in maze.map):
+		pokemonslist[maze.map[(initial_node.state.row, initial_node.state.column)]] = '1'
+	initial_node.state.pokemonCaptured = "".join(pokemonslist)
+	return initial_node
 
 def search(nodes,strategy, final_depth = 0):
 	while nodes.len() > 0:
@@ -61,27 +69,26 @@ def bestFirstSearch(maze, evalFn, visualize):
 
 def Astar(maze, evalFn, visualize):
 	qnFunction = getHeuristic(evalFn, 1)
-	return generalSearch(maze, evalFn, visualize)	
+	return generalSearch(maze, qnFunction, visualize)	
 
-def getHeuristic(evalFn, a_star = none):
+def getHeuristic(evalFn, a_star = None):
 	heuristics = Heuristics(maze, final_state)
-	
-	if(evalFn == "nearestPokemonManhattan"):
+	if(evalFn == "H1"): #nearestPokemonManhattan
 		if(a_star is not None):
-			return heuristics.f1
-		return heuristics.h1
-	if(evalFn == "goalPositionManhattan"):
+			return heuristics.F1
+		return heuristics.H1
+	if(evalFn == "H2"): #goalPositionManhattan
 		if(a_star is not None):
-			return heuristics.f2
-		return heuristics.h2
-	if(evalFn == "distancePokemonsInDirection"):
+			return heuristics.F2
+		return heuristics.H2
+	if(evalFn == "H3"): #goalPositionManhattan
 		if(a_star is not None):
-			return heuristics.f3
-		return heuristics.h3
-	if(evalFn == "numberOfPokemonsInDirection"):
+			return heuristics.F3
+		return heuristics.H3
+	if(evalFn == "H4"): #numberOfPokemonsInDirection
 		if(a_star is not None):
-			return heuristics.f4
-		return heuristics.h4
+			return heuristics.F4
+		return heuristics.H4
 
 def setQueue(nodes, strategy):
 	if strategy == "BF" :
@@ -92,9 +99,15 @@ def setQueue(nodes, strategy):
 		nodes.searchType = "LIFO"
 	elif strategy == "UC":
 		nodes.searchType = "PrioritizedInsert"
+	else: 
+		nodes.searchType = strategy
 #-----------------------------------------------------------------------
 
+
 maze.genMaze()
+
+print "Pokemons positions: "
+print maze.map
 
 print "Required Steps: " + str(maze.steps)
 for i in range(0,rows):
@@ -123,8 +136,14 @@ for i in range(0,len(state.pokemonCaptured)):
 	final_state.pokemonCaptured = '1' + final_state.pokemonCaptured
 
 problem = Problem(["RL","RR","F"], state, final_state, 1, maze.steps)
-node = generalSearch(maze, "ID", False) 
+# node = generalSearch(maze, "ID", False) 
+
+print "-------------------------------------------"
+print "VISUALIZEEEEE:"
+node = Astar(maze, "H4", True)
 if(node is not None):
-	print "Final Node:"
-	node.printNode()
-print (node is None)
+	maze.visualize(node)
+
+
+
+# print bestFirstSearch(maze, "H1", "t")

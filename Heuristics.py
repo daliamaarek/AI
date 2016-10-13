@@ -16,7 +16,7 @@ class Heuristics():
 	def H1 (self, node):
 		curr_row = node.state.row 
 		curr_col = node.state.column
-		pokemons = getPokemonsWithinRange(self.maze, 0, 0, self.maze.rows, self.maze.columns)
+		pokemons = getPokemonsWithinRange(node, self.maze, 0, 0, self.maze.rows, self.maze.columns)
 		r = getOnePokemonInRange (pokemons, curr_row, curr_col,node)
 		nearest_row = r[0]
 		nearest_col = r[1]
@@ -32,7 +32,7 @@ class Heuristics():
 					nearest_col = pokemons[i][1]
 					nearest_pokemon = diff_pok
 		if (nearest_row == -1):
-			return -1
+			return 0 
 		return nearest_pokemon
 
 
@@ -49,7 +49,7 @@ class Heuristics():
 	#gets smallest sum of distances between pokemon in the direction of the node
 	def H3(self, node):
 		orientation = getOrientation(node, self.maze)
-		pokemon = getPokemonsWithinRange(self.maze, orientation[0], orientation[1], 
+		pokemon = getPokemonsWithinRange(node, self.maze, orientation[0], orientation[1], 
 			orientation[2], orientation[3])
 		distance = 0	
 		if(pokemon):
@@ -70,32 +70,30 @@ class Heuristics():
 	#gets number of Pokemon in the direction of the node
 	def H4(self, node):
 		orientation = getOrientation(node, self.maze)
-		pokemon = getPokemonsWithinRange(self.maze, orientation[0], orientation[1], 
+		pokemon = getPokemonsWithinRange(node, self.maze, orientation[0], orientation[1], 
 			orientation[2], orientation[3])
 		return len(pokemon)
 
 
 
 	def F1(self, node):
-		return H1(node) + node.cost
+		return self.H1(node) + node.cost
 
 	def F2(self, node):
-		return H2(node) + node.cost
+		return self.H2(node) + node.cost
 
 	def F3(self, node):
-		return H3(node) + node.cost
+		return self.H3(node) + node.cost
 
-	def F1(self, node):
-		return H4(node) + node.cost
+	def F4(self, node):
+		return self.H4(node) + node.cost
 
-def getPokemonsWithinRange(maze , start_row , start_column, end_row, end_column):
+def getPokemonsWithinRange(node, maze , start_row , start_column, end_row, end_column):
 		pokemons = []
 		for i in range(start_row, end_row):
 			for j in range(start_column,end_column):
-				if(maze.field[i][j].isPokemon == True):
+				if(maze.field[i][j].isPokemon == True and node.state.pokemonCaptured[maze.map[(i,j)]] == '0'):
 					pokemons.append((i,j))
-		print "pokemon:"
-		print pokemons	
 		return pokemons				
 
 def getOnePokemonInRange (pokemons,curr_row,curr_col,node):
@@ -106,7 +104,6 @@ def getOnePokemonInRange (pokemons,curr_row,curr_col,node):
 				diff_col = abs(curr_col - pokemons[i][1])
 				nearest_pokemon = diff_row + diff_col
 				return (pokemons[i][0], pokemons[i][1], nearest_pokemon,i)
-
 	return (-1,-1,-1,len(pokemons)-1)
 
 def getOrientation(node, maze):
@@ -133,25 +130,25 @@ def getOrientation(node, maze):
 	return (start_row, start_column, end_row, end_column)
 
 #--------------------------------------------------------------
-maze.genMaze()
-fState = State()
-fState.row = 4
-fState.column = 4
+# maze.genMaze()
+# fState = State()
+# fState.row = 4
+# fState.column = 4
 
-h = Heuristics(maze, fState)
-state = State()
-state.row = 5
-state.column = 5	
-state.direction = 0
+# h = Heuristics(maze, fState)
+# state = State()
+# state.row = 5
+# state.column = 5	
+# state.direction = 0
 
-n = Node()
-n.state = state 
-print"---H1---"
-print h.H1(n)
-print"---H2---"
-print h.H2(n)
-print "---H3---"
-print h.H3(n)
-print "---H4---"
-print h.H4(n)
+# n = Node()
+# n.state = state 
+# print"---H1---"
+# print h.H1(n)
+# print"---H2---"
+# print h.H2(n)
+# print "---H3---"
+# print h.H3(n)
+# print "---H4---"
+# print h.H4(n)
 

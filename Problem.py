@@ -22,7 +22,7 @@ class Problem(ProblemAbstract):
 		self.final_state = final_state
 
 	def goalTest(self, node):
-		if(node.cost >= self.steps and node.state.row == self.final_state.row and node.state.column == self.final_state.column):
+		if(node.state.steps >= self.steps and node.state.row == self.final_state.row and node.state.column == self.final_state.column):
 			if("0" not in node.state.pokemonCaptured):
 				return True
 		return False

@@ -54,8 +54,8 @@ class Maze:
 		rows = self.rows
 		columns = self.columns
 		min_steps = int(rows*columns*(1.0/3))
-		self.steps = 5 #randint(min_steps, rows*columns*2)
-		self.no_of_pokemons = randint(1,int(rows*columns*(1.0/4)))
+		self.steps = 1 #randint(min_steps, rows*columns*2)
+		self.no_of_pokemons = randint(1,int(rows*columns*(1.0/2)))
 		self.pokemons = sample(range(0, rows*columns - 1), self.no_of_pokemons)
 		# print self.steps
 		# print self.pokemons
@@ -117,19 +117,29 @@ class Maze:
 					curr_walls[i] = (start_row, start_column, curr_walls[i])
 				all_walls = all_walls + curr_walls
 
+
 	def visualize(self, node):
-		print "Current position = (" + str(node.row) + " " + str(node.column) + ")"
-		print "Walls at curr position: " + str(self.field[node.row][node.column].walls)
-		print "Pokemons' positions:"
+		capturedparent = node.parent.state.pokemonCaptured
+		captured = node.state.pokemonCaptured
+
+		if(((node.parent is not None) and self.field[node.state.row][node.state.column].isPokemon == True and capturedparent[self.map[(node.parent.state.row, node.parent.state.column)]] == '0' and captured[self.map[(node.state.row,node.state.column)]] == '1') or (node.depth == 0 and captured[self.map[(node.state.row,node.state.column)]] == '1')):
+			print "Pokemon Captuuuuuuuured :')))!! *Tas2eef*"
+		print "Required steps: " + str(self.steps)
+		print "Walked steps " + str(node.state.steps)
+		print "Current position = (" + str(node.state.row) + " " + str(node.state.column) + ")"
+		print "Walls at curr position: " + str(self.field[node.state.row][node.state.column].walls)
+		print "Direction: " + str(directions[node.state.direction])
+		print "Remaining Pokemons:"
 		for i in range (0,len(node.state.pokemonCaptured)):
-			print self.field[self.reverse_map[i][0]][self.reverse_map[i][1]]
+			if(node.state.pokemonCaptured[i] == '0'):
+				print str(self.field[self.reverse_map[i][0]][self.reverse_map[i][1]].row) + " " + str(self.field[self.reverse_map[i][0]][self.reverse_map[i][1]].column)
 		print "----------------------------------"
 		if(node.parent != None):
 			self.visualize(node.parent)
 
 			
 
-
+directions = ["North", "East", "South", "West"]
 
 		# print  str(field[i][j].isPokemon)
 		# print field[i][j].row
