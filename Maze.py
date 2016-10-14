@@ -119,11 +119,13 @@ class Maze:
 
 
 	def visualize(self, node):
-		capturedparent = node.parent.state.pokemonCaptured
+		if(node.parent is not None):
+			capturedparent = node.parent.state.pokemonCaptured
 		captured = node.state.pokemonCaptured
 
-		if(((node.parent is not None) and self.field[node.state.row][node.state.column].isPokemon == True and capturedparent[self.map[(node.parent.state.row, node.parent.state.column)]] == '0' and captured[self.map[(node.state.row,node.state.column)]] == '1') or (node.depth == 0 and captured[self.map[(node.state.row,node.state.column)]] == '1')):
+		if(self.field[node.state.row][node.state.column].isPokemon == True and ((node.parent is not None and capturedparent[self.map[(node.state.row, node.state.column)]] == '0') or (node.depth == 0 and captured[self.map[(node.state.row,node.state.column)]] == '1'))):
 			print "Pokemon Captuuuuuuuured :')))!! *Tas2eef*"
+
 		print "Required steps: " + str(self.steps)
 		print "Walked steps " + str(node.state.steps)
 		print "Current position = (" + str(node.state.row) + " " + str(node.state.column) + ")"

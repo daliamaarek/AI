@@ -9,27 +9,20 @@ from Heuristics import *
 from createMaze import *
 
 def generalSearch(maze, strategy, visualize):
+
+	# initialalize the start node
+	initial_node = getInitialNode()
+
 	# Initialize empty Queue and set its type according to
 	# the search strategy
-	nodes = Queue()
-	setQueue(nodes, strategy)
-
-	# Get the initial state from the problem
-	curr_state = problem.initial_state
-
-	# Initialize the start node
-	initial_node = Node()
-	initial_node.state = curr_state
-	initial_node.depth = 0
-	initial_node = captureInitialPokemon(initial_node)
-
+	nodes = initializeQueue(strategy, initial_node) 
+	
 	if(strategy == "ID"):
 		final_depth = 0
 		while True:
-			nodes = Queue()
-			setQueue(nodes, strategy)
-			nodes.enqueue(initial_node)
 			print "Iterative Deepening Depth: " + str(final_depth)
+
+			nodes = initializeQueue(strategy, initial_node)
 			return_node  = search(nodes, strategy, final_depth)
 			if return_node is not None:
 				return return_node
@@ -39,6 +32,20 @@ def generalSearch(maze, strategy, visualize):
 		return_node = search(nodes,strategy)
 		return return_node
 	return None
+
+def getInitialNode():
+	# Get the initial state from the problem
+	curr_state = problem.initial_state
+	initial_node = Node()
+	initial_node.state = curr_state
+	initial_node.depth = 0
+	initial_node = captureInitialPokemon(initial_node)
+	return initial_node
+def initializeQueue(strategy, initial_node):
+	nodes = Queue()
+	setQueue(nodes, strategy)
+	nodes.enqueue(initial_node)
+	return nodes
 
 def captureInitialPokemon(initial_node):
 	pokemonslist = list(initial_node.state.pokemonCaptured)
