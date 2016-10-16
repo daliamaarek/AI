@@ -35,7 +35,7 @@ class Maze:
 		else:
 			if("RIGHT" in self.field[start[0]][start[1]].walls):
 				self.field[start[0]][start[1]].walls.remove("RIGHT")
-			if("LEFT" in self.field[end[0]][end[1]].walls):
+			if("LEFT" in self.field[end[0]][end[1]].walls):	
 				self.field[end[0]][end[1]].walls.remove("LEFT")
 
 	def updateRowColumn(self,curr_wall, new_row, new_column):
@@ -55,7 +55,7 @@ class Maze:
 		columns = self.columns
 		min_steps = int(rows*columns*(1.0/3))
 		self.steps = 1 #randint(min_steps, rows*columns*2)
-		self.no_of_pokemons = randint(1,int(rows*columns*(1.0/2)))
+		self.no_of_pokemons = 5
 		self.pokemons = sample(range(0, rows*columns - 1), self.no_of_pokemons)
 		# print self.steps
 		# print self.pokemons
@@ -119,6 +119,7 @@ class Maze:
 
 
 	def visualize(self, node):
+
 		if(node.parent is not None):
 			capturedparent = node.parent.state.pokemonCaptured
 		captured = node.state.pokemonCaptured
@@ -128,21 +129,52 @@ class Maze:
 
 		print "Required steps: " + str(self.steps)
 		print "Walked steps " + str(node.state.steps)
-		print "Current position = (" + str(node.state.row) + " " + str(node.state.column) + ")"
-		print "Walls at curr position: " + str(self.field[node.state.row][node.state.column].walls)
-		print "Direction: " + str(directions[node.state.direction])
-		print "Remaining Pokemons:"
-		for i in range (0,len(node.state.pokemonCaptured)):
-			if(node.state.pokemonCaptured[i] == '0'):
-				print str(self.field[self.reverse_map[i][0]][self.reverse_map[i][1]].row) + " " + str(self.field[self.reverse_map[i][0]][self.reverse_map[i][1]].column)
-		print "----------------------------------"
+		# print "Current position = (" + str(node.state.row) + " " + str(node.state.column) + ")"
+		# print "Walls at curr position: " + str(self.field[node.state.row][node.state.column].walls)
+		# print "Direction: " + str(directions[node.state.direction])
+		# print "Remaining Pokemons:"
+		# for i in range (0,len(node.state.pokemonCaptured)):
+		# 	if(node.state.pokemonCaptured[i] == '0'):
+		# 		print str(self.field[self.reverse_map[i][0]][self.reverse_map[i][1]].row) + " " + str(self.field[self.reverse_map[i][0]][self.reverse_map[i][1]].column)
+		# print "------------------------------------------------------------------------------"
+
+		curr_line = " "
+		for j in range(0,self.columns):
+			curr_line = curr_line + '_ '
+
+		print curr_line
+		for i in range(0,self.rows):
+			curr_line = ""
+			for j in range(0,self.columns):
+				if("LEFT" in self.field[i][j].walls):
+					curr_line = curr_line + "|"
+				elif(j > 0):
+					curr_line = curr_line + ' '
+				if(self.field[i][j].isPokemon == True and captured[self.map[(i,j)]] == '0'):
+					# print self.field[i][j].isPokemon
+					curr_line = curr_line + '*'
+				elif(node.state.row == i and node.state.column == j):
+					if(node.state.direction == 0):
+						curr_line = curr_line + '^'
+					elif(node.state.direction == 1):
+						curr_line = curr_line + '>'
+					elif(node.state.direction == 2):
+						curr_line = curr_line + 'v'
+					else:
+						curr_line = curr_line + '<'
+				else:
+					curr_line = curr_line + ' '
+			curr_line = curr_line + "|"
+			print curr_line
+			curr_line = ' '
+			for j in range(0,self.columns):
+				if("DOWN" in self.field[i][j].walls):
+					curr_line = curr_line + "_ "
+				else:
+					curr_line = curr_line + "  "
+			print curr_line
+		print "------------------------------------------------------------------------------"
 		if(node.parent != None):
 			self.visualize(node.parent)
 
-			
-
 directions = ["North", "East", "South", "West"]
-
-		# print  str(field[i][j].isPokemon)
-		# print field[i][j].row
-		# print field[i][j].column

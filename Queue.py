@@ -32,7 +32,7 @@ class Queue:
 			self.nodes = [element] + self.nodes
 		elif(self.searchType == "PrioritizedInsert"): #UCS
 			self.nodes.append(element)
-			self.nodes = sorted(self.nodes, key = lambda  node: (node.cost,node.operators))
+			self.nodes = sorted(self.nodes, key = lambda  node: node.cost)
 
 	def len(self):
 		return len(self.nodes)
