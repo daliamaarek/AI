@@ -54,8 +54,8 @@ class Maze:
 		rows = self.rows
 		columns = self.columns
 		min_steps = int(rows*columns*(1.0/3))
-		self.steps = 1 #randint(min_steps, rows*columns*2)
-		self.no_of_pokemons = 5
+		self.steps = 4 #randint(min_steps, rows*columns*2)
+		self.no_of_pokemons = 2
 		self.pokemons = sample(range(0, rows*columns - 1), self.no_of_pokemons)
 		# print self.steps
 		# print self.pokemons
@@ -122,6 +122,7 @@ class Maze:
 
 		if(node.parent is not None):
 			capturedparent = node.parent.state.pokemonCaptured
+		
 		captured = node.state.pokemonCaptured
 
 		if(self.field[node.state.row][node.state.column].isPokemon == True and ((node.parent is not None and capturedparent[self.map[(node.state.row, node.state.column)]] == '0') or (node.depth == 0 and captured[self.map[(node.state.row,node.state.column)]] == '1'))):

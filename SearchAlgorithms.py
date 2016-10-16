@@ -5,14 +5,15 @@ from Node import *
 from State import *
 from Queue import *
 from createMaze import *
+from searchVariables import *
 from Heuristics import * 
 
 
 
-def generalSearch(problem, strategy, visualize):
+def generalSearch(maze, strategy, visualize):
 
 	# initialalize the start node
-	initial_node = getInitialNode(problem)
+	initial_node = getInitialNode()
 
 	# Initialize empty Queue and set its type according to
 	# the search strategy
@@ -24,17 +25,17 @@ def generalSearch(problem, strategy, visualize):
 			print "Iterative Deepening Depth: " + str(final_depth)
 
 			nodes = initializeQueue(strategy, initial_node)
-			return_node  = search(problem, nodes, strategy, final_depth)
+			return_node  = search(nodes, strategy, final_depth)
 			if return_node is not None:
 				return return_node
 			final_depth  = final_depth + 1
 	else:
 		nodes.enqueue(initial_node)
-		return_node = search(problem, nodes,strategy)
+		return_node = search(nodes,strategy)
 		return return_node
 	return None
 
-def getInitialNode(problem):
+def getInitialNode():
 	# Get the initial state from the problem
 	curr_state = problem.initial_state
 	initial_node = Node()
@@ -55,7 +56,7 @@ def captureInitialPokemon(initial_node):
 	initial_node.state.pokemonCaptured = "".join(pokemonslist)
 	return initial_node
 
-def search(problem, nodes,strategy, final_depth = 0):
+def search(nodes,strategy, final_depth = 0):
 	visited = []
 	count_nodes = 0
 	while nodes.len() > 0:
@@ -78,11 +79,11 @@ def search(problem, nodes,strategy, final_depth = 0):
 			nodes.enqueue(children[i])
 	return None
 
-def bestFirstSearch(problem, evalFn, visualize):
+def bestFirstSearch(maze, evalFn, visualize):
 	qnFunction = getHeuristic(evalFn)
 	return generalSearch(maze, evalFn, visualize)
 
-def Astar(problem, evalFn, visualize):
+def Astar(maze, evalFn, visualize):
 	qnFunction = getHeuristic(evalFn, 1)
 	return generalSearch(maze, qnFunction, visualize)	
 
