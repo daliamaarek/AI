@@ -63,9 +63,9 @@ def search(nodes,strategy, final_depth = 0):
 		count_nodes = count_nodes + 1
 		nodes.dequeue()
 		curr_node = nodes.dequeuedValue
-		if((curr_node.state.pokemonCaptured, curr_node.state.direction, curr_node.state.row, curr_node.state.column, curr_node.cost) in visited):
+		if((curr_node.state.pokemonCaptured, curr_node.state.direction, curr_node.state.row, curr_node.state.column, curr_node.cost, curr_node.state.steps) in visited):
 			continue
-		visited = visited + [(curr_node.state.pokemonCaptured, curr_node.state.direction, curr_node.state.row, curr_node.state.column, curr_node.cost)]
+		visited = visited + [(curr_node.state.pokemonCaptured, curr_node.state.direction, curr_node.state.row, curr_node.state.column, curr_node.cost, curr_node.state.steps)]
 		if problem.goalTest(curr_node):
 			print 'Found'
 			print count_nodes  

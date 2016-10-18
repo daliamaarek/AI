@@ -16,24 +16,31 @@ print "-------------------------------------"
 
 
 node = generalSearch(maze, "BF", True)
+print " TTT BF elhamdullaah "
 if(node is not None):
 	maze.visualize(node)
 node = generalSearch(maze, "UC", True)
+print " TTT UC insha'allah "
 if(node is not None):
 	maze.visualize(node)
 
 node = Astar(maze, "H1", True)
+print " TTT H1 yarab "
 if(node is not None):
 	maze.visualize(node)
 
 node = Astar(maze, "H2", True)
+print " TTT H2 yarab "
 if(node is not None):
 	maze.visualize(node)
 
 node = Astar(maze, "H3", True)
+print " TTT H3 yarab "
+
 if(node is not None):
 	maze.visualize(node)
 
 node = Astar(maze, "H4", True)
+print " 	TTT H4 yarab "
 if(node is not None):
 	maze.visualize(node)
