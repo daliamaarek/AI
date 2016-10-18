@@ -13,7 +13,7 @@ class Maze:
 		self.steps = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
-
+		self.no_of_pokemons = 1
 
 	def update(self, start, end):
 		# print self.field[start[0]][start[1]].walls
@@ -54,8 +54,7 @@ class Maze:
 		rows = self.rows
 		columns = self.columns
 		min_steps = int(rows*columns*(1.0/3))
-		self.steps = 4 #randint(min_steps, rows*columns*2)
-		self.no_of_pokemons = 2
+		self.steps = 8
 		self.pokemons = sample(range(0, rows*columns - 1), self.no_of_pokemons)
 		# print self.steps
 		# print self.pokemons
