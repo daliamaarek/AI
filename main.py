@@ -14,33 +14,34 @@ for i in range(0,rows):
 		print field[i][j].walls
 print "-------------------------------------"
 
-
-node = generalSearch(maze, "BF", True)
+Visualize = True
+node = generalSearch(maze, "BF", Visualize)
 print " TTT BF elhamdullaah "
-if(node is not None):
-	maze.visualize(node)
-node = generalSearch(maze, "UC", True)
-print " TTT UC insha'allah "
-if(node is not None):
+if(node is not None and Visualize):
 	maze.visualize(node)
 
-node = Astar(maze, "H1", True)
+# node = generalSearch(maze, "UC", Visualize)
+# print " TTT UC insha'allah "
+# if(node is not None and Visualize):
+# 	maze.visualize(node)
+
+node = Astar(maze, "H1", Visualize)
 print " TTT H1 yarab "
-if(node is not None):
+if(node is not None and Visualize):
 	maze.visualize(node)
 
-node = Astar(maze, "H2", True)
+node = Astar(maze, "H2", Visualize)
 print " TTT H2 yarab "
-if(node is not None):
+if(node is not None and Visualize):
 	maze.visualize(node)
 
-node = Astar(maze, "H3", True)
+node = Astar(maze, "H3", Visualize)
 print " TTT H3 yarab "
 
-if(node is not None):
+if(node is not None and  Visualize):
 	maze.visualize(node)
 
-node = Astar(maze, "H4", True)
+node = Astar(maze, "H4", Visualize)
 print " 	TTT H4 yarab "
-if(node is not None):
+if(node is not None and  Visualize):
 	maze.visualize(node)

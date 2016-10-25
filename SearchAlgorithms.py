@@ -70,7 +70,7 @@ def search(nodes,strategy, final_depth = 0):
 			print 'Found'
 			print count_nodes  
 			return curr_node
-		curr_node.printNode()
+		# curr_node.printNode()
 		if(strategy == "ID" and curr_node.depth >= final_depth):
 			continue
 		children_size = len(curr_node.expand(problem.operators))

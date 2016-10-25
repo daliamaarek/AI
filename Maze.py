@@ -13,7 +13,7 @@ class Maze:
 		self.steps = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
-		self.no_of_pokemons = 1
+		self.no_of_pokemons = 2
 
 	def update(self, start, end):
 		# print self.field[start[0]][start[1]].walls
@@ -67,7 +67,6 @@ class Maze:
 			self.count_pokemons = self.count_pokemons + 1
 			# print str(row) + " " + str(column)
 			self.field[row][column].isPokemon = True
-
 
 	# Randomized Prim's algorithm
 	def primsAlgorithm(self):

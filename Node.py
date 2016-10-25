@@ -90,8 +90,6 @@ class Node(NodeAbstract):
 		child.state.pokemonCaptured = self.state.pokemonCaptured
 		pokemonslist = list(self.state.pokemonCaptured)
 		if((child.state.row,child.state.column) in maze.map):
-			print len(pokemonslist)
-			print (str(child.state.row) + " " + str(child.state.column))
 			pokemonslist[maze.map[(child.state.row,child.state.column)]] = '1'
 		child.state.pokemonCaptured = "".join(pokemonslist)
 
