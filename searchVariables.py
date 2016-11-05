@@ -5,17 +5,20 @@ from createMaze import *
 
 def writeFacts(maze, directions):
 	with open('KB.txt', 'w+') as kb:
-		kb.write('totaltime(' + str(maze.steps) + ', snode)\n')
-		kb.write('time(' + str(0) + ', snode)\n')
+		kb.write('totaltime(' + str(maze.steps) + ', snode).\n')
+		kb.write('time(' + str(0) + ', snode).\n')
 		for i in range(0,maze.rows):
 			for j in range(0,maze.columns):
 				for k in range(0,len(maze.field[i][j].walls)):
-					kb.write('wall([' + str(i) + ', ' + str(j) +'], ' + str(maze.field[i][j].walls[k]) +')\n')
+					kb.write('wall([' + str(i) + ', ' + str(j) +'], ' + str(maze.field[i][j].walls[k]).lower() +').\n')
+		for i in range(0,maze.rows):
+			for j in range(0,maze.columns):
 				if(maze.field[i][j].isPokemon):
-					kb.write('pokemon([' + str(i) + ', ' + str(j) + '], snode)\n')
-		kb.write('end(' + str(final_state.row) + ', ' + str(final_state.column) + ')\n')
-		kb.write('start(' + str(state.row) + ', ' + str(state.column) + ')\n')
-		kb.write('loc([' + str(state.row) + ', ' + str(state.column) + '], ' + directions[state.direction] + ', ' + 'snode)\n')
+					kb.write('pokemon([' + str(i) + ', ' + str(j) + '], snode).\n')
+		kb.write('end(' + str(final_state.row) + ', ' + str(final_state.column) + ').\n')
+		kb.write('start(' + str(state.row) + ', ' + str(state.column) + ').\n')
+		kb.write('loc([' + str(state.row) + ', ' + str(state.column) + '], ' + directions[state.direction].lower() + ', ' + 'snode).\n')
+		kb.close()	
 
 
 # prim's algorithm
