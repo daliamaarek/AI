@@ -15,10 +15,16 @@ def writeFacts(maze, directions):
 			for j in range(0,maze.columns):
 				if(maze.field[i][j].isPokemon):
 					kb.write('pokemon([' + str(i) + ', ' + str(j) + '], snode).\n')
-		kb.write('end(' + str(final_state.row) + ', ' + str(final_state.column) + ').\n')
-		kb.write('start(' + str(state.row) + ', ' + str(state.column) + ').\n')
-		kb.write('loc([' + str(state.row) + ', ' + str(state.column) + '], ' + directions[state.direction].lower() + ', ' + 'snode).\n')
+		kb.write('end([' + str(final_state.row) + ', ' + str(final_state.column) + ']).\n')
+		# kb.write('start([' + str(state.row) + ', ' + str(state.column) + ']).\n')
+		kb.write('loc([' + str(state.row) + ', ' + str(state.column) + '], ' + directions[state.direction].lower() + ', ' + 'snode, _).\n')
 		kb.close()	
+	filenames = ['KB.txt', 'predicates_and_axioms.txt']
+	with open('totalKB.txt', 'w+') as outfile:
+		for currfile in filenames:
+			with open(currfile) as infile:
+				outfile.write(infile.read())
+    	outfile.close()
 
 
 # prim's algorithm
