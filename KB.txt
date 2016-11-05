@@ -15,6 +15,10 @@ pokemon([0, 1], snode).
 end([0, 0]).
 start(1, 1).
 loc([1, 1], left, snode, _).
+direction(up).
+direction(down).
+direction(left).
+direction(right).
 
 
 
@@ -74,7 +78,7 @@ time(T,result(A,S)):-(
 					   time(TT,S),
 					   pair([X,Y],2,2),
 					   loc([X,Y],D,S,500),
-					   \+ wall([X,Y], D),
+						   \+ wall([X,Y], D),
 					   locto([X,Y],D,[W,Z]),
 					   loc([W,Z],D,result(A,S),500)
 					  );
@@ -84,11 +88,6 @@ time(T,result(A,S)):-(
 					  	poss(A,S),
 					    \+ A = forward
 					  )).
-
-direction(up).
-direction(down).
-direction(left).
-direction(right).
 
 loc([X,Y],D,result(forward,S), Depth):-
 						  ( 
@@ -135,18 +134,25 @@ pokemon(S):-
 	).
 
 getTime(T):-
-	between(0,10,T).
-query(S):-
+	between(0,1000,T).
+
+iterativeDeepening(S,Depth):-
+	query(S,Depth).
+
+iterativeDeepening(S,Depth):-
+	\+query(S,Depth),
+	DD is Depth + 1,
+	iterativeDeepening(S, DD).
+
+query(S, Depth):-
 	(
 	  end([X,Y]),
 	  write([X,Y]),
 	  write('\n'),
-	  loc([X,Y], D, S, 10),
+	  loc([X,Y], D, S, Depth),
 	  \+pokemon(S),
 	  getTime(T),
 	  time(T, S), 
 	  totaltime(TT, snode),
 	  T >= TT
 	 ).
-
-
