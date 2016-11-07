@@ -1,0 +1,2 @@
+
+S = result(forward, result(right, result(forward, result(right, result(forward, result(left, result(left, result(forward, result(right, snode))))))))) 

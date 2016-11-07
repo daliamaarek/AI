@@ -135,3 +135,13 @@ query(S, Depth):-
 	  totaltime(TT, snode),
 	  T >= TT
 	 ).
+
+main :- 
+    bagof(X, iterativeDeepening(X,1), [L|H]),
+    write('\n'),
+    write('\n'),
+    write('Possible Solution:\n'),
+    write(L),
+    write('\n'),
+    write('\n'),
+    halt.

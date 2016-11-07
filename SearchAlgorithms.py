@@ -22,8 +22,6 @@ def generalSearch(maze, strategy, visualize):
 	if(strategy == "ID"):
 		final_depth = 0
 		while True:
-			print "Iterative Deepening Depth: " + str(final_depth)
-
 			nodes = initializeQueue(strategy, initial_node)
 			return_node  = search(nodes, strategy, final_depth)
 			if return_node is not None:
@@ -67,8 +65,6 @@ def search(nodes,strategy, final_depth = 0):
 			continue
 		visited = visited + [(curr_node.state.pokemonCaptured, curr_node.state.direction, curr_node.state.row, curr_node.state.column, curr_node.cost, curr_node.state.steps)]
 		if problem.goalTest(curr_node):
-			print 'Found'
-			print count_nodes  
 			return curr_node
 		# curr_node.printNode()
 		if(strategy == "ID" and curr_node.depth >= final_depth):

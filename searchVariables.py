@@ -1,10 +1,11 @@
 from State import *
 from Problem import *
 from createMaze import *
-
+from subprocess import call
 
 def writeFacts(maze, directions):
 	with open('KB.txt', 'w+') as kb:
+		kb.write(':- initialization main.\n')
 		kb.write('totaltime(' + str(maze.steps) + ', snode).\n')
 		kb.write('time(' + str(0) + ', snode).\n')
 		for i in range(0,maze.rows):
@@ -19,12 +20,14 @@ def writeFacts(maze, directions):
 		# kb.write('start([' + str(state.row) + ', ' + str(state.column) + ']).\n')
 		kb.write('loc([' + str(state.row) + ', ' + str(state.column) + '], ' + directions[state.direction].lower() + ', ' + 'snode, _).\n')
 		kb.close()	
+
 	filenames = ['KB.txt', 'predicates_and_axioms.txt']
-	with open('totalKB.txt', 'w+') as outfile:
+	with open('totalKB.pl', 'w+') as outfile:
 		for currfile in filenames:
 			with open(currfile) as infile:
 				outfile.write(infile.read())
     	outfile.close()
+	call(["swipl", "totalKB.pl"])
 
 
 # prim's algorithm
@@ -38,7 +41,7 @@ state.direction = 3
 
 
 pokemons_size = len(maze.map)
-print 'size ' + str(pokemons_size)
+# print 'size ' + str(pokemons_size)
 # bitmask initially all zeros (no captured pokemons)
 state.pokemonCaptured = ""
 for i in range (0,pokemons_size):
@@ -48,9 +51,6 @@ final_state = State()
 final_state.row = 0
 final_state.column = 0
 final_state.pokemonCaptured = ""
-
-dd = ['UP', 'RIGHT', 'DOWN', 'LEFT']
-writeFacts(maze, dd)
 	
 # goal state pokemon captured (all ones)
 for i in range(0,len(state.pokemonCaptured)):
@@ -58,5 +58,3 @@ for i in range(0,len(state.pokemonCaptured)):
 
 # initialize a problem with initial state and final state
 problem = Problem(["RL","RR","F"], state, final_state, 1, maze.steps)
-
-

@@ -1,17 +1,44 @@
-totaltime(2, snode).
+:- initialization main.
+totaltime(4, snode).
 time(0, snode).
 wall([0, 0], up).
 wall([0, 0], left).
 wall([0, 1], up).
-wall([0, 1], down).
 wall([0, 1], right).
-wall([1, 0], down).
+wall([0, 2], up).
+wall([0, 2], left).
+wall([0, 3], up).
+wall([0, 3], down).
+wall([0, 3], right).
 wall([1, 0], left).
-wall([1, 1], up).
-wall([1, 1], down).
+wall([1, 0], right).
+wall([1, 1], left).
 wall([1, 1], right).
+wall([1, 2], left).
+wall([1, 3], up).
+wall([1, 3], down).
+wall([1, 3], right).
+wall([2, 0], down).
+wall([2, 0], left).
+wall([2, 0], right).
+wall([2, 1], left).
+wall([2, 2], down).
+wall([2, 3], up).
+wall([2, 3], down).
+wall([2, 3], right).
+wall([3, 0], up).
+wall([3, 0], down).
+wall([3, 0], left).
+wall([3, 1], down).
+wall([3, 2], up).
+wall([3, 2], down).
+wall([3, 3], up).
+wall([3, 3], down).
+wall([3, 3], right).
 pokemon([0, 0], snode).
-pokemon([0, 1], snode).
+pokemon([1, 3], snode).
+pokemon([2, 0], snode).
+pokemon([3, 0], snode).
 end([0, 0]).
 loc([1, 1], left, snode, _).
 direction(up).
@@ -151,3 +178,13 @@ query(S, Depth):-
 	  totaltime(TT, snode),
 	  T >= TT
 	 ).
+
+main :- 
+    bagof(X, iterativeDeepening(X,1), L),
+    write('\n'),
+    write('\n'),
+    write('Possible Solution:\n'),
+    write(L),
+    write('\n'),
+    write('\n'),
+    halt.

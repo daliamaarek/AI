@@ -1,8 +1,8 @@
 from Cell import *
 from Maze import *
 
-rows = 2
-columns = 2
+rows = 4
+columns = 4
 field = [[Cell() for j in range(columns)] for i in range(rows)]
 
 for i in range(0,rows):

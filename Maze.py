@@ -13,7 +13,7 @@ class Maze:
 		self.steps = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
-		self.no_of_pokemons = 2
+		self.no_of_pokemons = 4
 
 	def update(self, start, end):
 		# print self.field[start[0]][start[1]].walls
@@ -54,7 +54,7 @@ class Maze:
 		rows = self.rows
 		columns = self.columns
 		min_steps = int(rows*columns*(1.0/3))
-		self.steps = 8
+		self.steps = 4
 		self.pokemons = sample(range(0, rows*columns - 1), self.no_of_pokemons)
 		# print self.steps
 		# print self.pokemons
@@ -123,11 +123,11 @@ class Maze:
 		
 		captured = node.state.pokemonCaptured
 
-		if(self.field[node.state.row][node.state.column].isPokemon == True and ((node.parent is not None and capturedparent[self.map[(node.state.row, node.state.column)]] == '0') or (node.depth == 0 and captured[self.map[(node.state.row,node.state.column)]] == '1'))):
-			print "Pokemon Captuuuuuuuured :')))!! *Tas2eef*"
+		# if(self.field[node.state.row][node.state.column].isPokemon == True and ((node.parent is not None and capturedparent[self.map[(node.state.row, node.state.column)]] == '0') or (node.depth == 0 and captured[self.map[(node.state.row,node.state.column)]] == '1'))):
+		# 	print "Pokemon Captuuuuuuuured :')))!! *Tas2eef*"
 
-		print "Required steps: " + str(self.steps)
-		print "Walked steps " + str(node.state.steps)
+		# print "Required steps: " + str(self.steps)
+		# print "Walked steps " + str(node.state.steps)
 		# print "Current position = (" + str(node.state.row) + " " + str(node.state.column) + ")"
 		# print "Walls at curr position: " + str(self.field[node.state.row][node.state.column].walls)
 		# print "Direction: " + str(directions[node.state.direction])
@@ -138,42 +138,45 @@ class Maze:
 		# print "------------------------------------------------------------------------------"
 
 		curr_line = " "
-		for j in range(0,self.columns):
-			curr_line = curr_line + '_ '
+		if(node.parent is None):
+			for j in range(0,self.columns):
+				curr_line = curr_line + '_ '
 
-		print curr_line
-		for i in range(0,self.rows):
-			curr_line = ""
-			for j in range(0,self.columns):
-				if("LEFT" in self.field[i][j].walls):
-					curr_line = curr_line + "|"
-				elif(j > 0):
-					curr_line = curr_line + ' '
-				if(self.field[i][j].isPokemon == True and captured[self.map[(i,j)]] == '0'):
-					# print self.field[i][j].isPokemon
-					curr_line = curr_line + '*'
-				elif(node.state.row == i and node.state.column == j):
-					if(node.state.direction == 0):
-						curr_line = curr_line + '^'
-					elif(node.state.direction == 1):
-						curr_line = curr_line + '>'
-					elif(node.state.direction == 2):
-						curr_line = curr_line + 'v'
+			print curr_line
+			for i in range(0,self.rows):
+				curr_line = ""
+				for j in range(0,self.columns):
+					if("LEFT" in self.field[i][j].walls):
+						curr_line = curr_line + "|"
+					elif(j > 0):
+						curr_line = curr_line + ' '
+					if(self.field[i][j].isPokemon == True and captured[self.map[(i,j)]] == '0'):
+						# print self.field[i][j].isPokemon
+						curr_line = curr_line + '*'
+					elif(node.state.row == i and node.state.column == j):
+						if(node.state.direction == 0):
+							curr_line = curr_line + '^'
+						elif(node.state.direction == 1):
+							curr_line = curr_line + '>'
+						elif(node.state.direction == 2):
+							curr_line = curr_line + 'v'
+						else:
+							curr_line = curr_line + '<'
 					else:
-						curr_line = curr_line + '<'
-				else:
-					curr_line = curr_line + ' '
-			curr_line = curr_line + "|"
-			print curr_line
-			curr_line = ' '
-			for j in range(0,self.columns):
-				if("DOWN" in self.field[i][j].walls):
-					curr_line = curr_line + "_ "
-				else:
-					curr_line = curr_line + "  "
-			print curr_line
-		print "------------------------------------------------------------------------------"
+						curr_line = curr_line + ' '
+				curr_line = curr_line + "|"
+				print curr_line
+				curr_line = ' '
+				for j in range(0,self.columns):
+					if("DOWN" in self.field[i][j].walls):
+						curr_line = curr_line + "_ "
+					else:
+						curr_line = curr_line + "  "
+				print curr_line
+			print "------------------------------------------------------------------------------"
+			
 		if(node.parent != None):
 			self.visualize(node.parent)
+
 
 directions = ["North", "East", "South", "West"]

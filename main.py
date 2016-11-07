@@ -14,9 +14,8 @@ for i in range(0,rows):
 		print field[i][j].walls
 print "-------------------------------------"
 
-Visualize = True
+Visualize = False
 node = generalSearch(maze, "BF", Visualize)
-print " TTT BF elhamdullaah "
 if(node is not None and Visualize):
 	maze.visualize(node)
 
@@ -25,23 +24,23 @@ if(node is not None and Visualize):
 # if(node is not None and Visualize):
 # 	maze.visualize(node)
 
-node = Astar(maze, "H1", Visualize)
-print " TTT H1 yarab "
-if(node is not None and Visualize):
-	maze.visualize(node)
+# node = Astar(maze, "H1", Visualize)
+# if(node is not None and Visualize):
+# 	maze.visualize(node)
 
-node = Astar(maze, "H2", Visualize)
-print " TTT H2 yarab "
-if(node is not None and Visualize):
-	maze.visualize(node)
+# node = Astar(maze, "H2", Visualize)
+# if(node is not None and Visualize):
+# 	maze.visualize(node)
 
-node = Astar(maze, "H3", Visualize)
-print " TTT H3 yarab "
+# node = Astar(maze, "H3", Visualize)
 
-if(node is not None and  Visualize):
-	maze.visualize(node)
+# if(node is not None and  Visualize):
+# 	maze.visualize(node)
 
 node = Astar(maze, "H4", Visualize)
-print " 	TTT H4 yarab "
 if(node is not None and  Visualize):
 	maze.visualize(node)
+
+dd = ['UP', 'RIGHT', 'DOWN', 'LEFT']
+maze.visualize(node)
+writeFacts(maze, dd)
