@@ -3,8 +3,10 @@ direction(down).
 direction(left).
 direction(right).
 
-pair([X,Y], R , C):-
+pair([X,Y]):-
 (
+	rows(R),
+	cols(C),
 	XX is R - 1,
 	YY is C - 1,
 	between(0,XX,X),
@@ -34,7 +36,7 @@ goleft(D, Ddash):-
 				(D = up,    Ddash = left).
 
 
-in([X,Y], Rows, Columns):- X < Rows, Y < Columns , X > -1, Y > -1.
+in([X,Y]):-  rows(Rows), X < Rows, cols(Columns), Y < Columns , X > -1, Y > -1.
 
 pokemon([X,Y],result(A,S)):- 
 							 (
@@ -45,7 +47,7 @@ pokemon([X,Y],result(A,S)):-
 
 poss(forward,S):-
 		 (
-		   pair([X,Y],2,2),
+		   pair([X,Y]),
 		   loc([X,Y],D,S,500),
 		   \+wall([X,Y],D)
 		 ).
@@ -57,7 +59,7 @@ time(T,result(A,S)):-(
                        A=forward,
                        TT is T - 1,
 					   time(TT,S),
-					   pair([X,Y],2,2),
+					   pair([X,Y]),
 					   loc([X,Y],D,S,500),
 						   \+ wall([X,Y], D),
 					   locto([X,Y],D,[W,Z]),
@@ -76,7 +78,7 @@ loc([X,Y],D,result(forward,S), Depth):-
 						    direction(D),
 							loctowards([W,Z],D,[X,Y]),
 							\+wall([W,Z],D),
-							in([W,Z],2,2),
+							in([W,Z]),
 							Nd is Depth - 1,
 							loc([W,Z],D,S, Nd)
 						  ).
@@ -105,12 +107,12 @@ loc([X,Y],D,result(A,S), Depth):-
 							  direction(D),
 							  wall([X,Y],D)
 							)
-							, in([X,Y],2,2)
+							, in([X,Y])
 							).
 
 pokemon(S):-
 	(
-	  pair([W,Z],2,2),
+	  pair([W,Z]),
 	  pokemon([W,Z],S)
 	).
 

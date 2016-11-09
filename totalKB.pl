@@ -1,44 +1,30 @@
-:- initialization main.
+
+rows(3).
+cols(3).
 totaltime(4, snode).
 time(0, snode).
 wall([0, 0], up).
+wall([0, 0], down).
 wall([0, 0], left).
 wall([0, 1], up).
 wall([0, 1], right).
 wall([0, 2], up).
 wall([0, 2], left).
-wall([0, 3], up).
-wall([0, 3], down).
-wall([0, 3], right).
+wall([0, 2], right).
+wall([1, 0], up).
+wall([1, 0], down).
 wall([1, 0], left).
-wall([1, 0], right).
-wall([1, 1], left).
-wall([1, 1], right).
-wall([1, 2], left).
-wall([1, 3], up).
-wall([1, 3], down).
-wall([1, 3], right).
+wall([1, 2], down).
+wall([1, 2], right).
+wall([2, 0], up).
 wall([2, 0], down).
 wall([2, 0], left).
-wall([2, 0], right).
-wall([2, 1], left).
+wall([2, 1], down).
+wall([2, 2], up).
 wall([2, 2], down).
-wall([2, 3], up).
-wall([2, 3], down).
-wall([2, 3], right).
-wall([3, 0], up).
-wall([3, 0], down).
-wall([3, 0], left).
-wall([3, 1], down).
-wall([3, 2], up).
-wall([3, 2], down).
-wall([3, 3], up).
-wall([3, 3], down).
-wall([3, 3], right).
-pokemon([0, 0], snode).
-pokemon([1, 3], snode).
+wall([2, 2], right).
+pokemon([1, 1], snode).
 pokemon([2, 0], snode).
-pokemon([3, 0], snode).
 end([0, 0]).
 loc([1, 1], left, snode, _).
 direction(up).
@@ -46,8 +32,10 @@ direction(down).
 direction(left).
 direction(right).
 
-pair([X,Y], R , C):-
+pair([X,Y]):-
 (
+	rows(R),
+	cols(C),
 	XX is R - 1,
 	YY is C - 1,
 	between(0,XX,X),
@@ -77,7 +65,7 @@ goleft(D, Ddash):-
 				(D = up,    Ddash = left).
 
 
-in([X,Y], Rows, Columns):- X < Rows, Y < Columns , X > -1, Y > -1.
+in([X,Y]):-  rows(Rows), X < Rows, cols(Columns), Y < Columns , X > -1, Y > -1.
 
 pokemon([X,Y],result(A,S)):- 
 							 (
@@ -88,7 +76,7 @@ pokemon([X,Y],result(A,S)):-
 
 poss(forward,S):-
 		 (
-		   pair([X,Y],2,2),
+		   pair([X,Y]),
 		   loc([X,Y],D,S,500),
 		   \+wall([X,Y],D)
 		 ).
@@ -100,7 +88,7 @@ time(T,result(A,S)):-(
                        A=forward,
                        TT is T - 1,
 					   time(TT,S),
-					   pair([X,Y],2,2),
+					   pair([X,Y]),
 					   loc([X,Y],D,S,500),
 						   \+ wall([X,Y], D),
 					   locto([X,Y],D,[W,Z]),
@@ -119,7 +107,7 @@ loc([X,Y],D,result(forward,S), Depth):-
 						    direction(D),
 							loctowards([W,Z],D,[X,Y]),
 							\+wall([W,Z],D),
-							in([W,Z],2,2),
+							in([W,Z]),
 							Nd is Depth - 1,
 							loc([W,Z],D,S, Nd)
 						  ).
@@ -148,12 +136,12 @@ loc([X,Y],D,result(A,S), Depth):-
 							  direction(D),
 							  wall([X,Y],D)
 							)
-							, in([X,Y],2,2)
+							, in([X,Y])
 							).
 
 pokemon(S):-
 	(
-	  pair([W,Z],2,2),
+	  pair([W,Z]),
 	  pokemon([W,Z],S)
 	).
 
@@ -179,12 +167,12 @@ query(S, Depth):-
 	  T >= TT
 	 ).
 
-main :- 
-    bagof(X, iterativeDeepening(X,1), L),
+/*main :- 
+    bagof(X, iterativeDeepening(X,1), [L|H]),
     write('\n'),
     write('\n'),
     write('Possible Solution:\n'),
     write(L),
     write('\n'),
     write('\n'),
-    halt.
+    halt.*/

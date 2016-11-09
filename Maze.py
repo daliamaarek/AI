@@ -13,7 +13,7 @@ class Maze:
 		self.steps = 0
 		# generates a 2D rows x columns matrix having 0 in each cell 
 		self.visited = [[0 for x in range(columns)] for y in range(rows)]
-		self.no_of_pokemons = 4
+		self.no_of_pokemons = 2
 
 	def update(self, start, end):
 		# print self.field[start[0]][start[1]].walls

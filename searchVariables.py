@@ -6,6 +6,8 @@ from subprocess import call
 def writeFacts(maze, directions):
 	with open('KB.txt', 'w+') as kb:
 		kb.write(':- initialization main.\n')
+		kb.write('rows(' + str(maze.rows) + ').\n')
+		kb.write('cols(' + str(maze.columns) + ').\n')
 		kb.write('totaltime(' + str(maze.steps) + ', snode).\n')
 		kb.write('time(' + str(0) + ', snode).\n')
 		for i in range(0,maze.rows):
